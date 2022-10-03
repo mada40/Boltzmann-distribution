@@ -13,14 +13,17 @@ namespace Boltzmann_distribution
         {
             Position = p1;
             Point2 = p2;
-            Vector = new MyVector(0f, 0f);
-            Weight = 0f;
         }
         public float Length() => MyVector.distance(Position, Point2);
         public PointF Point2 { get; set; }
         public override void draw(ref Graphics g, Pen pen)
         {
             g.DrawLine(pen, Position, Point2);
+        }
+        public override void move(MyVector v)
+        {
+            Position = Position + v;
+            Point2 = Point2 + v;
         }
         public override RectangleF Bounds
         {

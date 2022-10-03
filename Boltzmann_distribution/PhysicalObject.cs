@@ -11,13 +11,11 @@ namespace Boltzmann_distribution
     abstract internal class PhysicalObject
     {
         public PointF Position { get; set; }
-        public MyVector Vector { get; set; }
-
-        public virtual float Weight { get; set; }
 
         public virtual RectangleF Bounds { get; private set; }
         abstract public void draw(ref Graphics g, Pen pen);
 
+        abstract public void move(MyVector v);
 
     }
 }

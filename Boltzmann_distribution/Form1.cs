@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace Boltzmann_distribution
 {
@@ -21,7 +22,8 @@ namespace Boltzmann_distribution
         Point mouse;
         
         World world;
-        List<VectorPoints> vp = new List<VectorPoints>();
+        List<ArrayLines> vp = new List<ArrayLines>();
+        static DateTime lastTime;
         public Form1()
         {
             InitializeComponent();
@@ -29,25 +31,61 @@ namespace Boltzmann_distribution
             g = Graphics.FromImage(bmp);
             pen = new Pen(Color.Black, 2f);
             world = new World();
-            Molecule molecule = new Molecule(230, new RectangleF(0, 0, 700, 700), 5);
-            Molecule molecule1 = new Molecule(23, new RectangleF(0, 0, 700, 700), 5);
-            Line line1 = new Line(new PointF(500, 250), new Point(500, 550));
+            Random rnd = new Random(2);//2
+            for (int i = 0; i < 30; i++)
+            {
+                double speed = 0.3;
+ 
+                world.add(new Molecule(rnd.Next(), new RectangleF(50, 50, 750, 700), speed));
+            }
+            //world.add(new Molecule(230, new RectangleF(0, 100, 700, 650), 0.2));
+            //world.add(new Molecule(99, new RectangleF(0, 0, 600, 700), 0.2));
+            //world.add(new Molecule(24, new RectangleF(0, 250, 100, 700), 0.2));
+            //world.add(new Molecule(25, new RectangleF(0, 250, 100, 700), 0.2));
+            //world.add(new Line(new PointF(50, 620), new Point(850, 620)));
 
-            world.add(molecule);
-            world.add(molecule1);
-            world.add(line1);
+            world.add(new Line(new PointF(50, 50), new Point(800, 50)));
+            world.add(new Line(new PointF(800, 750), new Point(800, 50)));
+            world.add(new Line(new PointF(800, 750), new Point(50, 750)));
+            world.add(new Line(new PointF(50, 50), new Point(50, 750)));
 
+            //world.add(new Line(new PointF(253, 501), new Point(599, 272)));
+            //world.add(new Line(new PointF(120, 120), new Point(190, 190)));
+            //world.add(new Line(new PointF(490, 520), new Point(620, 625)));
+            lastTime = DateTime.Now;
+
+        }
+
+
+        public static double DeltaMS()
+        {
+            var now = DateTime.Now;
+            double a = (now - lastTime).TotalMilliseconds;
+            lastTime = now;
+            return a;
         }
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
             g.Clear(Color.White);
-            world.draw(ref g, pen);
 
-            foreach (var v in vp)
+            double deltatime = 2.0*DeltaMS();
+            deltatime = 8;
+            world.update(deltatime);
+            world.draw(ref g, pen, deltatime);
+
+            Molecule m1 = (Molecule)world[0];
+            Molecule m2 = (Molecule)world[1];
+            if (MyMath.isInsercted(m1.Position, m1.R, m2.Position, m2.R))
             {
-                v.draw(ref g, pen);
+                deltatime = 16;
             }
+
+            foreach (var item in vp)
+            {
+                item.draw(ref g, pen, deltatime);
+            }
+
             if (vp.Count > 0 && isMouse)
             {
                 float rad = (float)Math.Sqrt(vp.Last().MinSquareLen);
@@ -73,22 +111,34 @@ namespace Boltzmann_distribution
         {
             isMouse = true;
             mouse = e.Location;
-            vp.Add(new VectorPoints(4900));
+            vp.Add(new ArrayLines(100));
         }
 
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
             isMouse = false;
+            for (int i = 0; i < vp.Last().getCount(); i++)
+            {
+                world.add(vp.Last()[i]);
+            }
         }
 
         
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
-            if (!isMouse) return;
+            //world[0].Position = e.Location;
+
+            if (!isMouse) 
+                return;
             mouse = e.Location;
             vp.Last().addPoint(e.Location);
             
+        }
+
+        private void pageModel_Enter(object sender, EventArgs e)
+        {
+            lastTime = DateTime.Now;
         }
     }
 }

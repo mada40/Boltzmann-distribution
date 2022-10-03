@@ -31,9 +31,9 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.pageMain = new System.Windows.Forms.TabPage();
             this.pageModel = new System.Windows.Forms.TabPage();
-            this.pageAuthors = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pageAuthors = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
             this.pageModel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -75,16 +75,7 @@
             this.pageModel.TabIndex = 1;
             this.pageModel.Text = "МОДЕЛЬ";
             this.pageModel.UseVisualStyleBackColor = true;
-            // 
-            // pageAuthors
-            // 
-            this.pageAuthors.Location = new System.Drawing.Point(4, 63);
-            this.pageAuthors.Name = "pageAuthors";
-            this.pageAuthors.Padding = new System.Windows.Forms.Padding(3);
-            this.pageAuthors.Size = new System.Drawing.Size(957, 469);
-            this.pageAuthors.TabIndex = 2;
-            this.pageAuthors.Text = "АВТОРЫ";
-            this.pageAuthors.UseVisualStyleBackColor = true;
+            this.pageModel.Enter += new System.EventHandler(this.pageModel_Enter);
             // 
             // splitContainer1
             // 
@@ -113,6 +104,16 @@
             this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
             this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
+            // 
+            // pageAuthors
+            // 
+            this.pageAuthors.Location = new System.Drawing.Point(4, 63);
+            this.pageAuthors.Name = "pageAuthors";
+            this.pageAuthors.Padding = new System.Windows.Forms.Padding(3);
+            this.pageAuthors.Size = new System.Drawing.Size(957, 469);
+            this.pageAuthors.TabIndex = 2;
+            this.pageAuthors.Text = "АВТОРЫ";
+            this.pageAuthors.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 

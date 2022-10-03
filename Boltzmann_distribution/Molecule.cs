@@ -11,7 +11,10 @@ namespace Boltzmann_distribution
     internal class Molecule : PhysicalObject
     {
         public float R { get; set; }
-        public override float Weight { get => R * R * R; }
+        public MyVector Vector { get; set; }
+
+        private const float EPS = 0.01F;
+
 
         public override RectangleF Bounds
         {
@@ -22,15 +25,11 @@ namespace Boltzmann_distribution
             
 
         }
-        public MyVector getOffset(double deltatime)
-        {
-            float dx = (float)(Vector.X * deltatime);
-            float dy = (float)(Vector.Y * deltatime);
-            return new MyVector(dx, dy);
-        }
+        public MyVector getOffset(double deltatime) => Vector * deltatime;
+
         public Molecule(int seed, RectangleF rect, double speed)
         {
-            R = 50f;
+            R = 5f;
             Random rnd = new Random(seed);
             setRandomPos(rnd.Next(), rect);
             setSpeed(rnd.Next(), speed);
@@ -42,15 +41,17 @@ namespace Boltzmann_distribution
             Position = pos;
             Vector = v;
         }
+        public override void move(MyVector v)
+        {
+            Position = Position + v;
+        }
 
         public override void draw(ref Graphics g, Pen pen) 
         {
             g.DrawEllipse(pen, Bounds);
-            float dx = (float)(Vector.X * 70);
-            float dy = (float)(Vector.Y * 70);
-            PointF beginRay = this.Position;
-            PointF endRay = new PointF(beginRay.X + dx, beginRay.Y + dy);
-            g.DrawLine(pen, beginRay, endRay);
+            PointF beginRay = Position;
+            PointF endRay = beginRay + Vector * 500;
+            //g.DrawLine(pen, beginRay, endRay);
 
         }
 
@@ -71,17 +72,34 @@ namespace Boltzmann_distribution
             Vector = new MyVector(vx, vy);
         }
 
-        public MyVector GetMaxOffset(Molecule m, double deltatime)
+        public MyVector GetPossibleMaxOffset(Molecule m, MyVector maxOffset)
         {
-            MyVector v = getOffset(deltatime);
-            return MyMath.GetMaxOffsetOfCircleToCircle(Position, R, v, m.Position, m.R);
+            
+            return MyMath.GetMaxOffsetOfCircleToCircle(Position, R, maxOffset, m.Position, m.R);
         }
 
-        public MyVector GetMaxOffset(Line line, double deltatime)
+        public MyVector GetPossibleMaxOffset(Line line, MyVector maxOffset)
         {
-            MyVector v = getOffset(deltatime);
-            const float epsilon = 0.01f;
-            return MyMath.GetMaxOffsetOfCircleToLineSegment(Position, R, v, line.Position, line.Point2, epsilon);
+            return MyMath.GetMaxOffsetOfCircleToLineSegment(Position, R, maxOffset, line.Position, line.Point2, EPS);
+        }
+
+
+
+        public MyVector GetPossibleMaxOffset(PhysicalObject ph, MyVector maxOffset)
+        {
+
+            if(ph is Molecule mol)
+            {
+                return GetPossibleMaxOffset(mol, maxOffset);
+            }
+            else if(ph is Line line)
+            {
+                return GetPossibleMaxOffset(line, maxOffset);
+            }
+            
+
+            throw new Exception();
+            return null;
         }
 
 
