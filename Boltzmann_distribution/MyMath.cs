@@ -13,7 +13,7 @@ namespace Boltzmann_distribution
 
         public static MyVector Reflect(MyVector v, MyVector normal)
         {
-            return v - normal * (2f * MyVector.dot(v, normal) / normal.LengthqSuared()) ;      
+            return v - normal * (2f * MyVector.dot(v, normal) / normal.LengthSquared()) ;      
         }
         public static float getLengthNormal(PointF posC, PointF p1, PointF p2)
         {
@@ -56,16 +56,17 @@ namespace Boltzmann_distribution
 
         public static bool isInsercted(PointF pos1, float R1, PointF pos2, float R2)
         {
-            return MyVector.distance(pos1, pos2) < R1 + R2;
+            float newR = R1 + R2;
+            return MyVector.distanceSquared(pos1, pos2) < newR * newR;
         }
 
-        public static MyVector GetMaxOffsetOfCircleToCircle(PointF pos1, float R1, MyVector v, PointF pos2, float R2)
+        public static double GetMaxOffsetOfCircleToCircle(PointF pos1, float R1, MyVector v, PointF pos2, float R2)
         {
             float newR = R1 + R2;
             if (!isInsercted(pos2, newR, pos1, pos1 + v))
-                return v;
+                return 1.0;
 
-            float a = v.LengthqSuared();
+            float a = v.LengthSquared();
 
             MyVector beginRayV = new MyVector(pos1);
             MyVector posCircleV = new MyVector(pos2);
@@ -77,10 +78,10 @@ namespace Boltzmann_distribution
             double d = Math.Sqrt(b * b - 4f * a * c);
             double x1 = (-b + d) / (2f * a);
             double x2 = (-b - d) / (2f * a);
-            return v * Math.Min(x1, x2);
+            return Math.Min(x1, x2);
         }
 
-        public static MyVector GetMaxOffsetOfCircleToLineSegment(PointF pos, float R, MyVector v, PointF ls1, PointF ls2, float epsilon)
+        public static double GetMaxOffsetOfCircleToLineSegment(PointF pos, float R, MyVector v, PointF ls1, PointF ls2, float epsilon)
         {
             PointF endRay = pos + v;
             float d1 = distance(ls1, pos, endRay);
@@ -89,18 +90,18 @@ namespace Boltzmann_distribution
             float min = Math.Min(d1, Math.Min(d2, d3));
 
             if (min >= R && !isInsercted(ls1, ls2, pos, endRay))
-                return v;
+                return 1.0;
 
             
             //если круг сталкивается с концом отрезка
-            MyVector t1 = GetMaxOffsetOfCircleToCircle(pos, R, v, ls1, 0f);
-            float x1 = distance(pos + t1, ls1, ls2);
+            double t1 = GetMaxOffsetOfCircleToCircle(pos, R, v, ls1, 0f);
+            float x1 = distance(pos + v *t1, ls1, ls2);
             if (d1 < R && Math.Abs(x1 - R) < epsilon)
                 return t1;
 
             //если круг сталкивается с другим концом отрезка
-            MyVector t2 = GetMaxOffsetOfCircleToCircle(pos, R, v, ls2, 0f);
-            float x2 = distance(pos + t2, ls1, ls2);
+            double t2 = GetMaxOffsetOfCircleToCircle(pos, R, v, ls2, 0f);
+            float x2 = distance(pos + v*t2, ls1, ls2);
             if (d2 < R && Math.Abs(x2 - R) < epsilon)
                 return t2;
 
@@ -109,9 +110,9 @@ namespace Boltzmann_distribution
             float u = MyVector.mult_coorZ(new MyVector(pos), barrierV);
 
             float del = MyVector.mult_coorZ(barrierV, v);
-            x1 = (-R * barrierV.Length() + p + u) / del;
-            x2 = (R * barrierV.Length() + p + u) / del;
-            return v * Math.Min(x1 ,x2);
+            x1 = (float)(-R * barrierV.Length() + p + u) / del;
+            x2 = (float)(R * barrierV.Length() + p + u) / del;
+            return Math.Min(x1 ,x2);
         }
     }
 }

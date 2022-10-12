@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,7 +11,7 @@ namespace Boltzmann_distribution
 {
     static internal class Physics
     {
-        static public MyVector CollisionBetweenLineAndMolecule(ref Line passLine, ref Molecule actMol, MyVector restOffset, float epsilon)
+        static public void CollisionBetweenLineAndMolecule(ref Line passLine, ref Molecule actMol, ref MyVector restOffset, float epsilon)
         {
             PointF b1 = passLine.Position;
             PointF b2 = passLine.Point2;
@@ -19,48 +20,69 @@ namespace Boltzmann_distribution
 
             if(Math.Abs(MyVector.distance(b1, molPos) - actMol.R) < epsilon)
                 normal = new MyVector(b1, molPos);
-
+            
             if (Math.Abs(MyVector.distance(b2, molPos) - actMol.R) < epsilon)
                 normal = new MyVector(b2, molPos);
 
             actMol.Vector = MyMath.Reflect(actMol.Vector, normal);
-            return MyMath.Reflect(restOffset, normal);
+            restOffset =  MyMath.Reflect(restOffset, normal);
         }
 
-
-        static public MyVector CollisionBetweenMoleculeAndMolecule(ref Molecule passMol, ref Molecule actMol, MyVector restOffset)
+        static public void CollisionBetweenMoleculeAndMolecule(ref Molecule passMol, ref Molecule actMol, ref MyVector restOffset)
         {
-            //MyVector normal = new MyVector(passMol.Position, actMol.Position);
-            //float actSpeed = actMol.Vector.Length();
-            //float pasSpeed = passMol.Vector.Length();
-            //
-            //float k = (pasSpeed / actSpeed);
-            //actMol.Vector = MyMath.Reflect(actMol.Vector, normal) * k;
-            //passMol.Vector = MyMath.Reflect(passMol.Vector, normal) * (actSpeed / pasSpeed);
-
-           
-
-            Molecule m1 = passMol;
-            Molecule m2 = actMol;
-            float Dx = m1.Position.X - m2.Position.X;
-            float Dy = m1.Position.Y - m2.Position.Y;
-            double d = MyVector.distance(m1.Position, m2.Position); // расстояние между центрами частиц
+            float Dx = passMol.Position.X - actMol.Position.X;
+            float Dy = passMol.Position.Y - actMol.Position.Y;
+            double d = MyVector.distance(passMol.Position, actMol.Position); // расстояние между центрами частиц
 
             double sin = Dx / d;
             double cos = Dy / d;
 
             // формула из интернета 
-            double Vn1 = m2.Vector.X * sin + m2.Vector.Y * cos;
-            double Vn2 = m1.Vector.X * sin + m1.Vector.Y * cos;
+            double Vn1 = actMol.Vector.X * sin + actMol.Vector.Y * cos;
+            double Vn2 = passMol.Vector.X * sin + passMol.Vector.Y * cos;
 
-            double Vt1 = -m2.Vector.X * cos + m2.Vector.Y * sin;
-            double Vt2 = -m1.Vector.X * cos + m1.Vector.Y * sin;
+            double Vt1 = -actMol.Vector.X * cos + actMol.Vector.Y * sin;
+            double Vt2 = -passMol.Vector.X * cos + passMol.Vector.Y * sin;
 
-            //устанавливем нMyовые скорости для частиц
-            m1.Vector = new MyVector(Vn1 * sin - Vt2 * cos, Vn1 * cos + Vt2 * sin);
-            m2.Vector = new MyVector(Vn2 * sin - Vt1 * cos, Vn2 * cos + Vt1 * sin);
 
-            return m2.Vector * (m2.Vector.Length() * restOffset.Length());
+            double restDeltaTime = restOffset.Length() / actMol.Vector.Length();
+
+            //устанавливем новые скорости для частиц
+            passMol.Vector = new MyVector(Vn1 * sin - Vt2 * cos, Vn1 * cos + Vt2 * sin);
+            actMol.Vector = new MyVector(Vn2 * sin - Vt1 * cos, Vn2 * cos + Vt1 * sin);
+
+            restOffset =  actMol.Vector * restDeltaTime;
+        }
+
+        static public void CollisionBetweenMoleculeAndObject(ref PhysicalObject passPhObj, ref Molecule actMol, ref MyVector restOffset, float epsilon)
+        {
+            if (passPhObj == null)
+                return;
+
+            if (passPhObj is Line line)
+            {
+                CollisionBetweenLineAndMolecule(ref line, ref actMol, ref restOffset, epsilon);
+                return;
+            }
+
+            if (passPhObj is Molecule mol)
+            {
+                CollisionBetweenMoleculeAndMolecule(ref mol, ref actMol, ref restOffset);
+                return;
+            }
+            throw new Exception();
+        }
+
+        //CoulombInteraction
+
+        static public void CoulombInteraction(SourceField s, ref Molecule m)
+        {
+            MyVector v = new MyVector(s.Position, m.Position);
+            float dist = (float)v.Length();
+            MyVector.normalize(ref v);
+            MyVector gravVec = v * s.Charge * s.F(dist);
+            m.Vector -= gravVec;
+
         }
     }
 }

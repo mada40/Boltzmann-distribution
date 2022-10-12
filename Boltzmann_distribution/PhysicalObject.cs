@@ -13,7 +13,7 @@ namespace Boltzmann_distribution
         public PointF Position { get; set; }
 
         public virtual RectangleF Bounds { get; private set; }
-        abstract public void draw(ref Graphics g, Pen pen);
+        abstract public void draw(ref Graphics g, Pen pen, double deltatime);
 
         abstract public void move(MyVector v);
 

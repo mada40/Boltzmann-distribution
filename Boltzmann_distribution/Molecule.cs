@@ -10,50 +10,53 @@ namespace Boltzmann_distribution
 {
     internal class Molecule : PhysicalObject
     {
+        const float R_DEF = 15;
         public float R { get; set; }
         public MyVector Vector { get; set; }
-
-        private const float EPS = 0.01F;
+        private const float EPS = 0.0001F;
 
 
         public override RectangleF Bounds
         {
-            get
-            {
-                return new RectangleF(Position.X - R, Position.Y - R, 2*R, 2*R);
-            }
-            
-
+            get => new RectangleF(Position.X - R, Position.Y - R, 2 * R, 2 * R);
         }
         public MyVector getOffset(double deltatime) => Vector * deltatime;
 
         public Molecule(int seed, RectangleF rect, double speed)
         {
-            R = 5f;
+            R = R_DEF;
             Random rnd = new Random(seed);
             setRandomPos(rnd.Next(), rect);
             setSpeed(rnd.Next(), speed);
         }
 
-        public Molecule(PointF pos, float r, MyVector v)
+        public Molecule(PointF pos,  MyVector vec, float r = R_DEF)
         {
-            R = r;
             Position = pos;
-            Vector = v;
-        }
-        public override void move(MyVector v)
-        {
-            Position = Position + v;
+            R = r;
+            Vector = vec;
         }
 
-        public override void draw(ref Graphics g, Pen pen) 
+        public Molecule()
+        {
+            Position = new PointF();
+            Vector = new MyVector();
+            R = R_DEF;
+        }
+
+        public override void move(MyVector v)
+        {
+            Position += v;
+        }
+
+        public override void draw(ref Graphics g, Pen pen, double deltatime) 
         {
             g.DrawEllipse(pen, Bounds);
             PointF beginRay = Position;
-            PointF endRay = beginRay + Vector * 500;
-            //g.DrawLine(pen, beginRay, endRay);
-
+            PointF endRay = beginRay + getOffset(deltatime);
+            g.DrawLine(pen, beginRay, endRay);
         }
+
 
         public void setRandomPos(int seed, RectangleF rect)
         {
@@ -72,20 +75,19 @@ namespace Boltzmann_distribution
             Vector = new MyVector(vx, vy);
         }
 
-        public MyVector GetPossibleMaxOffset(Molecule m, MyVector maxOffset)
+        private double GetPossibleMaxOffset(Molecule m, MyVector maxOffset)
         {
-            
             return MyMath.GetMaxOffsetOfCircleToCircle(Position, R, maxOffset, m.Position, m.R);
         }
 
-        public MyVector GetPossibleMaxOffset(Line line, MyVector maxOffset)
+        private double GetPossibleMaxOffset(Line line, MyVector maxOffset)
         {
             return MyMath.GetMaxOffsetOfCircleToLineSegment(Position, R, maxOffset, line.Position, line.Point2, EPS);
         }
 
 
 
-        public MyVector GetPossibleMaxOffset(PhysicalObject ph, MyVector maxOffset)
+        public double GetPossibleMaxOffset(PhysicalObject ph, MyVector maxOffset)
         {
 
             if(ph is Molecule mol)
@@ -96,10 +98,10 @@ namespace Boltzmann_distribution
             {
                 return GetPossibleMaxOffset(line, maxOffset);
             }
+
+            return 1.0;
             
 
-            throw new Exception();
-            return null;
         }
 
 
