@@ -26,22 +26,23 @@ namespace Boltzmann_distribution
             }
         }
 
-        public void addPoint(int x, int y)
+        public void addPoint(int x, int y, bool isGoodPoint = false)
         {
             if (points.Count() > 0)
             {
                 float dx = points.Last().X - x;
                 float dy = points.Last().Y - y;
-                if (dx * dx + dy * dy < MinSquareLen)
+                if (dx * dx + dy * dy < (isGoodPoint? 2 : MinSquareLen))
                     return;
             }
 
             points.Add(new Point(x, y));
         }
 
-        public void addPoint(Point x)
+        public void addPoint(Point x, bool isGoodPoint = false)
         {
-            addPoint(x.X, x.Y);
+            //return;
+            addPoint(x.X, x.Y, isGoodPoint);
         }
 
         public void draw(ref Graphics g, Pen pen, double deltatime)

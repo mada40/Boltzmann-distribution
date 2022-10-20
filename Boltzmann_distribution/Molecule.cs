@@ -10,7 +10,7 @@ namespace Boltzmann_distribution
 {
     internal class Molecule : PhysicalObject
     {
-        const float R_DEF = 15;
+        public const float R_DEF = 15f;
         public float R { get; set; }
         public MyVector Vector { get; set; }
         private const float EPS = 0.0001F;
@@ -49,12 +49,11 @@ namespace Boltzmann_distribution
             Position += v;
         }
 
-        public override void draw(ref Graphics g, Pen pen, double deltatime) 
+
+        public override void draw(ref Graphics g, Pen pen, double deltatime)
         {
-            g.DrawEllipse(pen, Bounds);
-            PointF beginRay = Position;
-            PointF endRay = beginRay + getOffset(deltatime);
-            g.DrawLine(pen, beginRay, endRay);
+            Brush brush = new SolidBrush(pen.Color);
+            g.FillEllipse(brush, Bounds);
         }
 
 
@@ -73,6 +72,20 @@ namespace Boltzmann_distribution
             float vx = (float)(Math.Cos(arc) * speed);
             float vy = (float)(Math.Sin(arc) * speed);
             Vector = new MyVector(vx, vy);
+        }
+
+        public void changeSpeed(double newSpeed)
+        {
+            if(Vector.LengthSquared() == 0.0)
+            {
+                Random rnd = new Random((int)(Position.X + Position.Y));
+                setSpeed(rnd.Next(),newSpeed);
+                return;
+            }
+            MyVector tmp = Vector;
+            MyVector.normalize(ref tmp);
+            Vector = tmp * newSpeed;
+
         }
 
         private double GetPossibleMaxOffset(Molecule m, MyVector maxOffset)

@@ -5,56 +5,50 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
+
 
 namespace Boltzmann_distribution
 {
     public partial class Form1 : Form
     {
+        const int MIN_SQ_LEN = 50*50;
         Graphics g;
         Bitmap bmp;
 
-        Pen pen;
         bool isMouse = false;
-        Point mouse;
+        bool isPause = true;
+
         
         World world;
-        List<ArrayLines> vp = new List<ArrayLines>();
+        ArrayLines vp;
         static DateTime lastTime;
+        double coeffSpeed = 1.0;
         public Form1()
         {
             InitializeComponent();
-            bmp = new Bitmap(1000, 1000);
+            
+            bmp = new Bitmap(500, 500);
             g = Graphics.FromImage(bmp);
-            pen = new Pen(Color.Black, 2f);
-            world = new World();
-            Random rnd = new Random(2);//2
-            for (int i = 0; i < 30; i++)
-            {
-                double speed = 0.3;
- 
-                world.add(new Molecule(rnd.Next(), new RectangleF(50, 50, 750, 700), speed));
-            }
-            //world.add(new Molecule(230, new RectangleF(0, 100, 700, 650), 0.2));
-            //world.add(new Molecule(99, new RectangleF(0, 0, 600, 700), 0.2));
-            //world.add(new Molecule(24, new RectangleF(0, 250, 100, 700), 0.2));
-            //world.add(new Molecule(25, new RectangleF(0, 250, 100, 700), 0.2));
-            //world.add(new Line(new PointF(50, 620), new Point(850, 620)));
 
-            world.add(new Line(new PointF(50, 50), new Point(800, 50)));
-            world.add(new Line(new PointF(800, 750), new Point(800, 50)));
-            world.add(new Line(new PointF(800, 750), new Point(50, 750)));
-            world.add(new Line(new PointF(50, 50), new Point(50, 750)));
+            Size size = pictureBox1.Size;
+            RectangleF boundsWorld = new RectangleF(new PointF(0, 0), size);
 
-            //world.add(new Line(new PointF(253, 501), new Point(599, 272)));
-            //world.add(new Line(new PointF(120, 120), new Point(190, 190)));
-            //world.add(new Line(new PointF(490, 520), new Point(620, 625)));
+            world = new World(boundsWorld, 20);
+            //world.add(new SourceField(new PointF(300, 700), -100f, 100f, 32f));
+
             lastTime = DateTime.Now;
 
+            vp = new ArrayLines(MIN_SQ_LEN);
+
+            trackBarCount.Maximum = world.MaxCountMolecules;
+            trackBarRadius.Value = (int)Molecule.R_DEF;
         }
+
+
 
 
         public static double DeltaMS()
@@ -69,28 +63,18 @@ namespace Boltzmann_distribution
         {
             g.Clear(Color.White);
 
-            double deltatime = 2.0*DeltaMS();
-            deltatime = 8;
-            world.update(deltatime);
-            world.draw(ref g, pen, deltatime);
+            double deltatime = DeltaMS() * coeffSpeed;
+            pauseButton.Text = (isPause? "⏸︎" : "⏯︎");
+            if (!isPause)
+                world.update(deltatime, 16);
 
-            Molecule m1 = (Molecule)world[0];
-            Molecule m2 = (Molecule)world[1];
-            if (MyMath.isInsercted(m1.Position, m1.R, m2.Position, m2.R))
-            {
-                deltatime = 16;
-            }
+            world.draw(ref g, deltatime);
 
-            foreach (var item in vp)
-            {
-                item.draw(ref g, pen, deltatime);
-            }
 
-            if (vp.Count > 0 && isMouse)
-            {
-                float rad = (float)Math.Sqrt(vp.Last().MinSquareLen);
-                g.DrawEllipse(pen, mouse.X - rad, mouse.Y - rad, rad * 2f, rad * 2f);
-            }
+
+            //pageAuthors.Text = (1000 / deltatime * coeffSpeed).ToString();
+            Pen penForArrLines = new Pen(Color.Gray, 1);
+            vp.draw(ref g, penForArrLines, deltatime);
             pictureBox1.Image = bmp;
 
         }
@@ -102,25 +86,34 @@ namespace Boltzmann_distribution
                 case Keys.Escape:
                     this.Close();
                     break;
+                    case Keys.Space:
+                    if (tabControl1.SelectedTab == tabControl1.TabPages[1])
+                        isPause = !isPause;
+                    break;
                 default:
                     break;
             }
+
+            if (!isPause)
+                lastTime = DateTime.Now;
         }
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
             isMouse = true;
-            mouse = e.Location;
-            vp.Add(new ArrayLines(100));
+            vp.posMouse = e.Location;
+            vp.addPoint(e.Location);
         }
 
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
             isMouse = false;
-            for (int i = 0; i < vp.Last().getCount(); i++)
+            vp.addPoint(e.Location, true);
+            for (int i = 0; i < vp.getCount(); i++)
             {
-                world.add(vp.Last()[i]);
+                world.add(vp[i]);
             }
+            vp.clear();
         }
 
         
@@ -131,14 +124,86 @@ namespace Boltzmann_distribution
 
             if (!isMouse) 
                 return;
-            mouse = e.Location;
-            vp.Last().addPoint(e.Location);
+            vp.posMouse = e.Location;
+            vp.addPoint(e.Location);
             
         }
 
         private void pageModel_Enter(object sender, EventArgs e)
         {
+            
             lastTime = DateTime.Now;
+            trackBarSpeed.Value = 8 / 2;
+            label4.Text = coeffSpeed.ToString() + "X";
+        }
+
+        private void pauseButton_MouseClick(object sender, MouseEventArgs e)
+        {
+            isPause = !isPause;
+        }
+
+        private void claerButton_MouseClick(object sender, MouseEventArgs e)
+        {
+            world.clear();
+            trackBarCount.Value = 0;
+            isPause = true;
+            
+        }
+
+        private void trackBar4_Scroll(object sender, EventArgs e)
+        {
+            coeffSpeed = 2.0 * trackBarSpeed.Value / 8;
+          
+            label4.Text = coeffSpeed.ToString() + "X";
+            
+        }
+
+        private void pictureBox1_SizeChanged(object sender, EventArgs e)
+        {
+            if (world != null)
+            {
+                world.Bounds = pictureBox1.Bounds;
+            }
+
+
+            bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+            g = Graphics.FromImage(bmp);
+
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            world.CountActMol = trackBarCount.Value;
+            world.pushOutAllMolecules();
+        }
+
+        private void trackBar2_Scroll(object sender, EventArgs e)
+        {
+            for (int i = 0; i < world.MaxCountMolecules; i++)
+            {
+                world[i].R = trackBarRadius.Value;
+            }
+
+            world.pushOutAllMolecules();
+            
+            //world.update(0.1);
+        }
+
+        private void trackBarTemperature_Scroll(object sender, EventArgs e)
+        {
+            for (int i = 0; i < world.MaxCountMolecules; i++)
+            {
+                world[i].changeSpeed(trackBarTemperature.Value / 350.0);
+            }
+
+            world.pushOutAllMolecules();
+
+        }
+
+        private void pictureBox1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            float sign = e.Button == MouseButtons.Right ? -1 : 1;
+            world.add(new SourceField(e.Location, 30 * sign, 70));
         }
     }
 }

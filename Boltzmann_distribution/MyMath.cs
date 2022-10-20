@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -76,8 +77,15 @@ namespace Boltzmann_distribution
             //ax^2 + bx + c = 0;
             //x = (-b +-sqrt(b^2-4ac))/2a
             double d = Math.Sqrt(b * b - 4f * a * c);
+
+            if (a == 0.0f)
+                a = 0.0001f;
             double x1 = (-b + d) / (2f * a);
             double x2 = (-b - d) / (2f * a);
+
+            if(x1 < 0.0 && x2 < 0.0)
+                return Math.Max(x1, x2);
+
             return Math.Min(x1, x2);
         }
 
@@ -110,6 +118,8 @@ namespace Boltzmann_distribution
             float u = MyVector.mult_coorZ(new MyVector(pos), barrierV);
 
             float del = MyVector.mult_coorZ(barrierV, v);
+            if (del == 0.0f)
+                del = 0.0001f;
             x1 = (float)(-R * barrierV.Length() + p + u) / del;
             x2 = (float)(R * barrierV.Length() + p + u) / del;
             return Math.Min(x1 ,x2);

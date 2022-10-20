@@ -1,120 +1,157 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
-using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace Boltzmann_distribution
 {
     internal class World
     {
-        private List<PhysicalObject> physicalObjects;
-        private List<PhysicalObject> buffer = new List<PhysicalObject>();
+        private  Molecule[] molecules;
+
+        private List<PhysicalObject> passiveObject = new List<PhysicalObject>();
+        private List<PhysicalObject> bufferPassObj = new List<PhysicalObject>();
         private Pen penForBuffer = new Pen(Color.Red, 4f);
-        public int CountMolecules { get; private set; }
+        private Pen penForPassObj = new Pen(Color.Black, 2f);
+        private Pen penForMolecule = new Pen(Color.Orange, 1f);
+        public int CountActMol { get; set; }
+        public int MaxCountMolecules { get; private set; }
         public int CountLines { get; private set; }
-        public int Count => physicalObjects.Count;
-        private const float EPS_LEN_RAY = 0.0001f;
+        public int Count => passiveObject.Count;
+        private const float EPS_LEN_RAY = 0.0000000001f;
         private const float EPS = 0.1f;
-        private const int MAX_COUNT_ITER = 32;
-        public World()
-        {
-            CountLines = 0;
-            CountMolecules = 0;
-            physicalObjects = new List<PhysicalObject>();
+        private const int MAX_COUNT_ITER = 8;
+
+        private RectangleF _bounds;
+        public RectangleF Bounds 
+        { 
+            get => _bounds; 
+            set
+            {
+                _bounds = value;
+                createBounds();
+
+                Random rnd = new Random();
+                for (int i = 0; i < MaxCountMolecules; i++)
+                {
+                    molecules[i].setRandomPos(rnd.Next(), _bounds);
+                }
+            }
         }
 
-        public World(int cntMol, float molR, double minSpeed, double maxSpeed)
+        private void createBounds()
         {
+            PointF LT = _bounds.Location;
+            PointF RT = new PointF(LT.X + _bounds.Width, LT.Y);
 
+            PointF LB = new PointF(LT.X, LT.Y + _bounds.Height);
+            PointF RB = new PointF(RT.X, RT.Y + _bounds.Height);
+
+            if (CountLines == 0)
+            {
+                add(new Line());
+                add(new Line());
+                add(new Line());
+                add(new Line());
+            }
+            passiveObject[0] = (new Line(LT, RT));
+            passiveObject[1] = (new Line(RT, RB));
+            passiveObject[2] = (new Line(RB, LB));
+            passiveObject[3] = (new Line(LB, LT));
+        }
+
+        public World(RectangleF bounds, int cntMol) 
+        {
+            molecules = new Molecule[cntMol];
+            for(int i = 0; i <cntMol; i++)
+            {
+                molecules[i] = new Molecule();
+            }
+            CountLines = 0;
+            MaxCountMolecules = cntMol;
+            CountActMol = 0;
+            Bounds = bounds;
+
+            Random rnd = new Random(5);//2
+            for (int i = 0; i < cntMol; i++)
+            {
+                double speed = 0.02;
+                Molecule tmp = new Molecule(rnd.Next(), bounds, speed);
+
+                add(tmp);
+            }
         }
 
         private void addMaxNumberItemsFromBuffer()
         {
             //return;
             List<PhysicalObject> newBuff = new List<PhysicalObject>();
-            foreach (var objFromBuff in buffer)
+            foreach (var objFromBuff in bufferPassObj)
             {
                 bool isPossible = true;
-                foreach (var phObject in physicalObjects)
-                    if (phObject is Molecule mol)
+                if (objFromBuff is Line l1)
+                {
+                    for(int i = 0; i < CountActMol; i++)
                     {
-                        if(objFromBuff is Line lb)
-                        {
-                            if (MyMath.isInsercted(mol.Position, mol.R, lb.Position, lb.Point2))
-                                isPossible = false;
-                        }
-                        
-                        if(objFromBuff is Molecule mb)
-                        {
-                            if(MyMath.isInsercted(mol.Position, mol.R, mb.Position, mb.R))
-                                isPossible = false;
-                        }
+                        Molecule mol = molecules[i];
+                        if (MyMath.isInsercted(mol.Position, mol.R, l1.Position, l1.Point2))
+                            isPossible = false;
                     }
-
+                }
 
                 if (isPossible)
-                    physicalObjects.Add(objFromBuff);
+                    passiveObject.Add(objFromBuff);
                 else
-                    newBuff.Add(objFromBuff);
-      
+                    newBuff.Add(objFromBuff);  
             }
 
-            buffer.Clear();
-            buffer.AddRange(newBuff);
+            bufferPassObj.Clear();
+            bufferPassObj.AddRange(newBuff);
+
         }
 
-
+        private int cntAddedMol = 0;
         public void add(PhysicalObject phObject)
         {
-            if (phObject is Line)
-                CountLines++;
-
-            if (phObject is Molecule)
-                CountMolecules++;
-
-
-            buffer.Add(phObject);
-            addMaxNumberItemsFromBuffer();
-
-
-
-        }
-
-        public void update(double deltatime)
-        {
-            addMaxNumberItemsFromBuffer();
-            updatePh();
-            foreach (var activeObj in physicalObjects)
+            if (phObject is Molecule mol)
             {
-                if(activeObj is Molecule actMol)
+                molecules[cntAddedMol++] = mol;
+            }
+            else
+            {
+                if (phObject is Line line)
                 {
-                    updateOneMol(ref actMol, deltatime);
+                    CountLines++;
                 }
+                bufferPassObj.Add(phObject);
             }
 
+
+
+            addMaxNumberItemsFromBuffer();
         }
 
-        private void updatePh()
+        public void update(double deltatime, int k)
         {
-            foreach (var item in physicalObjects)
+            for (int i = 0; i < k; i++)
             {
-                if (item is SourceField s)
-                {
-                    foreach (var item1 in physicalObjects)
-                    {
-                        if (item1 is Molecule m)
-                            Physics.CoulombInteraction(s, ref m);
-                    }
-                }
+                upp(deltatime / k);
             }
-            
         }
 
+        private void upp(double deltatime)
+        {
+            addMaxNumberItemsFromBuffer();
+
+            for (int i = 0; i < CountActMol; i++)
+            {
+                Molecule actMol = molecules[i];
+                updateOneMol(ref actMol, deltatime);
+            }
+        }
+
+        
         private void updateOneMol(ref Molecule actMol, double deltatime)
         {
             MyVector offset = actMol.getOffset(deltatime);
@@ -124,49 +161,120 @@ namespace Boltzmann_distribution
             {
                 double maxK = 1.0;
                 PhysicalObject nearestObject = null;
-                foreach (var passiveObj in physicalObjects)
+                foreach (var passiveObj in passiveObject)
                 {
-                    if (passiveObj == actMol)
-                        continue;
-                
-                    double k = actMol.GetPossibleMaxOffset(passiveObj, offset);
+                    PhysicalObject ph = passiveObj;
+                    gg(ref actMol, ref ph, ref offset, ref maxK, ref nearestObject);
+                }
 
-                    if (k < maxK && k >= 0)
-                    {
-                        maxK = k;
-                        nearestObject = passiveObj;
-                    }
-                
+
+                for (int i = 0; i < CountActMol; i++)
+                {
+                    PhysicalObject tmp = molecules[i];
+                    gg(ref actMol, ref tmp, ref offset, ref maxK, ref nearestObject);
+                    molecules[i] = (Molecule)tmp;
                 }
 
 
                 actMol.move(offset * maxK);
-                offset = offset * (1.0 - maxK); ;//осталось пройти
+                offset = offset * (1.0 - maxK);//осталось пройти
                 Physics.CollisionBetweenMoleculeAndObject(ref nearestObject, ref actMol, ref offset, EPS);
 
 
             }
-            //check(actMol);
+        }
+
+        private void gg(ref Molecule actMol, ref PhysicalObject passiveObj, ref MyVector offset, ref double maxK, ref PhysicalObject nearestObject)
+        {
+            if (actMol == passiveObj)
+                return;
+
+            Physics.PushOut(ref actMol, ref passiveObj);
+
+            if (passiveObj is SourceField s)
+            {
+                MyVector grav = Physics.CoulombInteraction(s, actMol.Position);
+                offset += grav;
+                actMol.Vector += grav;
+            }
+            double k = actMol.GetPossibleMaxOffset(passiveObj, offset);
+
+            if (k < maxK && k >= 0.0)
+            {
+                maxK = k;
+                nearestObject = passiveObj;
+            }
+            
         }
 
 
-        public PhysicalObject this [int i]
+
+        public Molecule this [int i]
         {
-            get => physicalObjects[i];
-            set => physicalObjects[i] = value;
+            get => molecules[i];
+            set => molecules[i] = value;
+        }
+
+        public void pushOutAllMolecules()
+        {
+            for (int k = 0; k < 5; k++)
+            {
+                for (int i = 0; i < CountActMol; i++)
+                {
+                    Molecule m1 = molecules[i];
+                    for (int j = 0; j < CountActMol; j++)
+                    {
+                        if (i == j)
+                            continue;
+
+                        Molecule m2 = molecules[j];
+                        Physics.PushOut(ref m1, ref m2);
+                    }
+
+                    foreach (var item in passiveObject)
+                    {
+                        PhysicalObject tmp = item;
+                        Physics.PushOut(ref m1, ref tmp);
+                    }
+                }
+            }
         }
             
-        public void draw(ref Graphics g, Pen pen, double deltatime)
+        public void draw(ref Graphics g, double deltatime)
         {
-            foreach (var phObject in physicalObjects)
+            foreach (var phObject in passiveObject)
             {
-                phObject.draw(ref g, pen, deltatime);
+                phObject.draw(ref g, penForPassObj, deltatime);
             }
 
-            foreach (var line in buffer)
+            for(int i = 0; i < CountActMol; ++i)
             {
-                line.draw(ref g, penForBuffer, deltatime);
+                molecules[i].draw(ref g, penForMolecule, deltatime);
             }
+
+
+            foreach (var passObj in bufferPassObj)
+            {
+                passObj.draw(ref g, penForBuffer, deltatime);
+            }
+
+
+        }
+
+        public void clear()
+        {
+            bufferPassObj.Clear();
+            passiveObject.Clear();
+            cntAddedMol = 0;
+            CountActMol = 0;
+            CountLines = 0;
+            Random rnd = new Random();
+            foreach (var mol in molecules)
+            {
+                mol.setRandomPos(rnd.Next(), Bounds);
+                mol.setSpeed(rnd.Next(), 0.02);
+            }
+            createBounds();
         }
     }
 }

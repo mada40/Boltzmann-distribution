@@ -14,8 +14,16 @@ namespace Boltzmann_distribution
             Position = p1;
             Point2 = p2;
         }
+
+        public Line()
+        {
+            Position = PointF.Empty;
+            Point2 = PointF.Empty;
+        }
         public float Length() => MyVector.distance(Position, Point2);
         public PointF Point2 { get; set; }
+
+
         public override void draw(ref Graphics g, Pen pen, double deltatime)
         {
             g.DrawLine(pen, Position, Point2);

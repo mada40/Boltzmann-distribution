@@ -59,6 +59,7 @@ namespace Boltzmann_distribution
             if (passPhObj == null)
                 return;
 
+
             if (passPhObj is Line line)
             {
                 CollisionBetweenLineAndMolecule(ref line, ref actMol, ref restOffset, epsilon);
@@ -75,14 +76,67 @@ namespace Boltzmann_distribution
 
         //CoulombInteraction
 
-        static public void CoulombInteraction(SourceField s, ref Molecule m)
+        static public MyVector CoulombInteraction(SourceField s, PointF molPos)
         {
-            MyVector v = new MyVector(s.Position, m.Position);
+            MyVector v = new MyVector(molPos, s.Position);
             float dist = (float)v.Length();
-            MyVector.normalize(ref v);
-            MyVector gravVec = v * s.Charge * s.F(dist);
-            m.Vector -= gravVec;
 
+            if (dist <= 1f)
+                return new MyVector(0,0);
+
+            dist = Math.Max(dist, 50f);
+            MyVector.normalize(ref v);
+            MyVector gravVec = v * s.Charge * s.F(dist);   
+            return gravVec;
+
+        }
+
+        static public void PushOut(ref Molecule m, ref PhysicalObject phObj)
+        {
+            if (phObj is Line line)
+                PushOut(ref m, line);
+
+            if(phObj is Molecule mol)
+                PushOut(ref m, ref mol);
+        }
+
+        static public void PushOut(ref Molecule m1, ref Molecule m2)
+        {
+            if (!MyMath.isInsercted(m1.Position, m1.R, m2.Position, m2.R)) 
+                return;
+
+            MyVector v1 = new MyVector(m1.Position, m2.Position);
+            double d = v1.Length();
+
+            double x = MyMath.GetMaxOffsetOfCircleToCircle(m1.Position, m1.R, v1, m2.Position, m2.R);
+            v1 *= (x / 2.0);
+            m1.Position += v1;
+            m2.Position -= v1;
+        }
+
+        static public void PushOut(ref Molecule m, Line line)
+        {
+
+            PointF ls1 = line.Position;
+            PointF ls2 = line.Point2;
+
+            if (!MyMath.isInsercted(m.Position, m.R, ls1, ls2)) 
+                return;
+
+            MyVector v1 = new MyVector(ls1, ls2).GetNormal();
+            v1 *= 2f * m.R;
+            PointF beginRay = m.Position;
+            PointF endRay = m.Position + v1;
+            MyVector barr = new MyVector(ls1, ls2);
+            MyVector r1 = new MyVector(ls1, beginRay);
+            MyVector r2 = new MyVector(ls1, endRay);
+            float k1 = MyVector.mult_coorZ(barr, r1);
+            float k2 = MyVector.mult_coorZ(barr, r2);
+            if (k1 * k2 > 0)
+                v1 *= -1f;
+
+            double x = MyMath.GetMaxOffsetOfCircleToLineSegment(m.Position, m.R, v1, ls2, ls1, 0.00001f);
+            m.Position += v1 * x * 1.01;
         }
     }
 }
