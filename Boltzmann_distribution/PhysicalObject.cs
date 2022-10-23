@@ -8,7 +8,7 @@ using System.Drawing;
 
 namespace Boltzmann_distribution
 {
-    abstract internal class PhysicalObject
+    abstract public class PhysicalObject
     {
         public PointF Position { get; set; }
 

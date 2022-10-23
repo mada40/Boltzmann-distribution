@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Boltzmann_distribution
 {
-    internal class SourceField : PhysicalObject
+    public class SourceField : PhysicalObject
     {
         public float Charge { get; set; }
         public float RaduisWell { get; set; }

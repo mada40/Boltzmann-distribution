@@ -9,13 +9,14 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 
 namespace Boltzmann_distribution
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        const int MIN_SQ_LEN = 50*50;
+        const int MIN_SQ_LEN = 75*75;
         Graphics g;
         Bitmap bmp;
 
@@ -23,11 +24,12 @@ namespace Boltzmann_distribution
         bool isPause = true;
 
         
-        World world;
+        public static World world;
         ArrayLines vp;
         static DateTime lastTime;
         double coeffSpeed = 1.0;
-        public Form1()
+        const int N = 15;
+        public MainForm()
         {
             InitializeComponent();
             
@@ -37,7 +39,7 @@ namespace Boltzmann_distribution
             Size size = pictureBox1.Size;
             RectangleF boundsWorld = new RectangleF(new PointF(0, 0), size);
 
-            world = new World(boundsWorld, 20);
+            world = new World(boundsWorld, 100);
             //world.add(new SourceField(new PointF(300, 700), -100f, 100f, 32f));
 
             lastTime = DateTime.Now;
@@ -46,6 +48,16 @@ namespace Boltzmann_distribution
 
             trackBarCount.Maximum = world.MaxCountMolecules;
             trackBarRadius.Value = (int)Molecule.R_DEF;
+
+            
+            for (int i = 0; i < N; i++)
+            {
+                chart1.Series[0].Points.Add(0);
+                chart2.Series[0].Points.Add(0);
+            }
+
+            
+
         }
 
 
@@ -59,24 +71,69 @@ namespace Boltzmann_distribution
             return a;
         }
 
+
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
             g.Clear(Color.White);
 
             double deltatime = DeltaMS() * coeffSpeed;
             pauseButton.Text = (isPause? "⏸︎" : "⏯︎");
-            if (!isPause)
-                world.update(deltatime, 16);
 
-            world.draw(ref g, deltatime);
+            try
+            {
+                if (!isPause)
+                    world.update(deltatime, 4);
 
-
+                world.draw(ref g, deltatime);
+            }
+            catch (Exception)
+            {
+                allClear();
+            }
+            
 
             //pageAuthors.Text = (1000 / deltatime * coeffSpeed).ToString();
             Pen penForArrLines = new Pen(Color.Gray, 1);
             vp.draw(ref g, penForArrLines, deltatime);
             pictureBox1.Image = bmp;
 
+            updateCharts(deltatime);
+        }
+
+        private void updateCharts(double deltatime)
+        {
+            int[] tmpX = new int[N];
+            int[] tmpY = new int[N];
+            int kX = (pictureBox1.Width + N - 1) / N;
+            int kY = (pictureBox1.Height + N - 1) / N;
+
+            int maxX = 1;
+            int maxY = 1;
+            for (int i = 0; i < world.CountActMol; i++)
+            {
+                int x = (int)(world[i].Position.X / kX);
+                int y = (int)(world[i].Position.Y / kY);
+                tmpX[x]++;
+                tmpY[y]++;
+                maxX = Math.Max(maxX, tmpX[x]);
+                maxY = Math.Max(maxY, tmpY[y]);
+            }
+            double lastMaxX = chart1.ChartAreas[0].AxisY.Maximum;
+            double lastMaxY = chart2.ChartAreas[0].AxisY.Maximum;
+
+            if (maxX > lastMaxX || maxX * 2 < lastMaxX)
+                chart1.ChartAreas[0].AxisY.Maximum = maxX;
+
+            if (maxY > lastMaxY || maxY * 2 < lastMaxY)
+                chart2.ChartAreas[0].AxisY.Maximum = maxY;
+
+            splitContainer3.SplitterDistance = splitContainer3.Height / 2;
+
+            for (int i = 0; i < N; i++)
+            {
+                chart1.Series[0].Points[i] = new DataPoint(i, tmpX[i]);
+                chart2.Series[0].Points[i] = new DataPoint(i, tmpY[i]);
+            }
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -142,12 +199,16 @@ namespace Boltzmann_distribution
             isPause = !isPause;
         }
 
-        private void claerButton_MouseClick(object sender, MouseEventArgs e)
+        private void allClear()
         {
             world.clear();
+            vp.clear();
             trackBarCount.Value = 0;
             isPause = true;
-            
+        }
+        private void claerButton_MouseClick(object sender, MouseEventArgs e)
+        {
+            allClear();
         }
 
         private void trackBar4_Scroll(object sender, EventArgs e)
@@ -185,8 +246,7 @@ namespace Boltzmann_distribution
             }
 
             world.pushOutAllMolecules();
-            
-            //world.update(0.1);
+          
         }
 
         private void trackBarTemperature_Scroll(object sender, EventArgs e)
@@ -202,8 +262,11 @@ namespace Boltzmann_distribution
 
         private void pictureBox1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            float sign = e.Button == MouseButtons.Right ? -1 : 1;
-            world.add(new SourceField(e.Location, 30 * sign, 70));
+             Form2 f2 = new Form2();
+             f2.pos = e.Location;
+             f2.Show();
         }
+
+        
     }
 }

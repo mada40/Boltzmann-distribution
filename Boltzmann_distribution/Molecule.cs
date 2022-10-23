@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Boltzmann_distribution
 {
-    internal class Molecule : PhysicalObject
+    public class Molecule : PhysicalObject
     {
         public const float R_DEF = 15f;
         public float R { get; set; }

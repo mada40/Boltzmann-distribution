@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Boltzmann_distribution
 {
-    internal class World
+    public class World
     {
         private  Molecule[] molecules;
 
@@ -242,6 +242,7 @@ namespace Boltzmann_distribution
             
         public void draw(ref Graphics g, double deltatime)
         {
+
             foreach (var phObject in passiveObject)
             {
                 phObject.draw(ref g, penForPassObj, deltatime);
@@ -251,7 +252,6 @@ namespace Boltzmann_distribution
             {
                 molecules[i].draw(ref g, penForMolecule, deltatime);
             }
-
 
             foreach (var passObj in bufferPassObj)
             {

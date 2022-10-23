@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Boltzmann_distribution
 {
-    static internal class MyMath
+    static public class MyMath
     {
 
         public static MyVector Reflect(MyVector v, MyVector normal)

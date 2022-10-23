@@ -8,7 +8,7 @@ using System.Drawing;
 
 namespace Boltzmann_distribution
 {
-    internal class MyVector 
+    public class MyVector 
     {
         public float X { get; set; }
         public float Y { get; set; }
