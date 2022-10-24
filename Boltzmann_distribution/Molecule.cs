@@ -22,12 +22,12 @@ namespace Boltzmann_distribution
         }
         public MyVector getOffset(double deltatime) => Vector * deltatime;
 
-        public Molecule(int seed, RectangleF rect, double speed)
+        public Molecule(int seed, RectangleF rect, double min_speed, double max_speed)
         {
             R = R_DEF;
             Random rnd = new Random(seed);
             setRandomPos(rnd.Next(), rect);
-            setSpeed(rnd.Next(), speed);
+            setSpeed(rnd.Next(), min_speed, max_speed);
         }
 
         public Molecule(PointF pos,  MyVector vec, float r = R_DEF)
@@ -65,9 +65,10 @@ namespace Boltzmann_distribution
 
             Position = new PointF(x, y);
         }
-        public void setSpeed(int seed, double speed)
+        public void setSpeed(int seed, double min_speed, double max_speed)
         {
             Random rnd = new Random(seed);
+            double speed = min_speed + rnd.NextDouble() * (max_speed - min_speed);
             double arc = rnd.NextDouble() * 2.0 * Math.PI;
             float vx = (float)(Math.Cos(arc) * speed);
             float vy = (float)(Math.Sin(arc) * speed);
@@ -79,7 +80,7 @@ namespace Boltzmann_distribution
             if(Vector.LengthSquared() == 0.0)
             {
                 Random rnd = new Random((int)(Position.X + Position.Y));
-                setSpeed(rnd.Next(),newSpeed);
+                setSpeed(rnd.Next(),newSpeed, newSpeed);
                 return;
             }
             MyVector tmp = Vector;

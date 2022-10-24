@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace Boltzmann_distribution
 {
     public partial class MainForm : Form
     {
-        const int MIN_SQ_LEN = 75*75;
+        const int MIN_SQ_LEN = 30*30;
         Graphics g;
         Bitmap bmp;
 
@@ -28,7 +29,7 @@ namespace Boltzmann_distribution
         ArrayLines vp;
         static DateTime lastTime;
         double coeffSpeed = 1.0;
-        const int N = 15;
+        const int N = 30;
         public MainForm()
         {
             InitializeComponent();
@@ -40,7 +41,6 @@ namespace Boltzmann_distribution
             RectangleF boundsWorld = new RectangleF(new PointF(0, 0), size);
 
             world = new World(boundsWorld, 100);
-            //world.add(new SourceField(new PointF(300, 700), -100f, 100f, 32f));
 
             lastTime = DateTime.Now;
 
@@ -49,15 +49,26 @@ namespace Boltzmann_distribution
             trackBarCount.Maximum = world.MaxCountMolecules;
             trackBarRadius.Value = (int)Molecule.R_DEF;
 
+
+
+            initializationAllCharts();
             
+
+        }
+
+        public void initializationAllCharts()
+        {
             for (int i = 0; i < N; i++)
             {
                 chart1.Series[0].Points.Add(0);
                 chart2.Series[0].Points.Add(0);
             }
 
-            
+            chart1.ChartAreas[0].AxisX.Title = "КООРДИНАТА X";
+            chart1.ChartAreas[0].AxisY.Title = "КОЛИЧЕСТВО\nМОЛЕКУЛ";
 
+            chart2.ChartAreas[0].AxisX.Title = "КООРДИНАТА Y";
+            chart2.ChartAreas[0].AxisY.Title = "КОЛИЧЕСТВО\nМОЛЕКУЛ";
         }
 
 
@@ -113,13 +124,21 @@ namespace Boltzmann_distribution
             {
                 int x = (int)(world[i].Position.X / kX);
                 int y = (int)(world[i].Position.Y / kY);
-                tmpX[x]++;
-                tmpY[y]++;
+                x = Math.Max(0, x);
+                y = Math.Max(0, y);
+                tmpX[x % N]++;
+                tmpY[y % N]++;
                 maxX = Math.Max(maxX, tmpX[x]);
                 maxY = Math.Max(maxY, tmpY[y]);
             }
             double lastMaxX = chart1.ChartAreas[0].AxisY.Maximum;
             double lastMaxY = chart2.ChartAreas[0].AxisY.Maximum;
+
+            chart1.ChartAreas[0].AxisX.Maximum = pictureBox1.Width;
+            chart1.ChartAreas[0].AxisX.Interval = kX;
+
+            chart2.ChartAreas[0].AxisX.Maximum = pictureBox1.Height;
+            chart2.ChartAreas[0].AxisX.Interval = kY;
 
             if (maxX > lastMaxX || maxX * 2 < lastMaxX)
                 chart1.ChartAreas[0].AxisY.Maximum = maxX;
@@ -131,8 +150,8 @@ namespace Boltzmann_distribution
 
             for (int i = 0; i < N; i++)
             {
-                chart1.Series[0].Points[i] = new DataPoint(i, tmpX[i]);
-                chart2.Series[0].Points[i] = new DataPoint(i, tmpY[i]);
+                chart1.Series[0].Points[i] = new DataPoint(i * kX, tmpX[i]);
+                chart2.Series[0].Points[i] = new DataPoint(i * kY, tmpY[i]);
             }
         }
 
@@ -173,8 +192,6 @@ namespace Boltzmann_distribution
             vp.clear();
         }
 
-        
-
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
             //world[0].Position = e.Location;
@@ -191,7 +208,7 @@ namespace Boltzmann_distribution
             
             lastTime = DateTime.Now;
             trackBarSpeed.Value = 8 / 2;
-            label4.Text = coeffSpeed.ToString() + "X";
+            label4.Text =  "Скорость расчета: " + coeffSpeed.ToString() + "X";
         }
 
         private void pauseButton_MouseClick(object sender, MouseEventArgs e)
@@ -214,9 +231,9 @@ namespace Boltzmann_distribution
         private void trackBar4_Scroll(object sender, EventArgs e)
         {
             coeffSpeed = 2.0 * trackBarSpeed.Value / 8;
-          
-            label4.Text = coeffSpeed.ToString() + "X";
-            
+
+            label4.Text = "Скорость расчета: " + coeffSpeed.ToString() + "X";
+
         }
 
         private void pictureBox1_SizeChanged(object sender, EventArgs e)
@@ -253,7 +270,7 @@ namespace Boltzmann_distribution
         {
             for (int i = 0; i < world.MaxCountMolecules; i++)
             {
-                world[i].changeSpeed(trackBarTemperature.Value / 350.0);
+                world[i].changeSpeed(trackBarTemperature.Value / 800.0);
             }
 
             world.pushOutAllMolecules();
@@ -265,8 +282,22 @@ namespace Boltzmann_distribution
              Form2 f2 = new Form2();
              f2.pos = e.Location;
              f2.Show();
+
         }
 
-        
+        private void button1_MouseClick(object sender, MouseEventArgs e)
+        {
+            Close();
+        }
+
+        private void pageModel_Leave(object sender, EventArgs e)
+        {
+            isPause = true;
+        }
+
+        private void button2_MouseClick(object sender, MouseEventArgs e)
+        {
+            Process.Start(@"Theory.pdf");
+        }
     }
 }

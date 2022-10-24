@@ -22,6 +22,8 @@ namespace Boltzmann_distribution
         private const float EPS_LEN_RAY = 0.0000000001f;
         private const float EPS = 0.1f;
         private const int MAX_COUNT_ITER = 8;
+        private const double MIN_SPEED_MOLECULE = 0.005;
+        private const double MAX_SPEED_MOLECULE = 0.015;
 
         private RectangleF _bounds;
         public RectangleF Bounds 
@@ -76,9 +78,7 @@ namespace Boltzmann_distribution
             Random rnd = new Random(5);//2
             for (int i = 0; i < cntMol; i++)
             {
-                double speed = 0.02;
-                Molecule tmp = new Molecule(rnd.Next(), bounds, speed);
-
+                Molecule tmp = new Molecule(rnd.Next(), bounds, MIN_SPEED_MOLECULE, MAX_SPEED_MOLECULE);
                 add(tmp);
             }
         }
@@ -272,7 +272,7 @@ namespace Boltzmann_distribution
             foreach (var mol in molecules)
             {
                 mol.setRandomPos(rnd.Next(), Bounds);
-                mol.setSpeed(rnd.Next(), 0.02);
+                mol.setSpeed(rnd.Next(), MIN_SPEED_MOLECULE, MAX_SPEED_MOLECULE);
             }
             createBounds();
         }

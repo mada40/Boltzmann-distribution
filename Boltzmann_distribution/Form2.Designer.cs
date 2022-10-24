@@ -31,6 +31,8 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.Radius = new System.Windows.Forms.Label();
             this.Charge = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.trackBar2 = new System.Windows.Forms.TrackBar();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
@@ -55,6 +57,8 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.label2);
+            this.splitContainer1.Panel2.Controls.Add(this.label1);
             this.splitContainer1.Panel2.Controls.Add(this.button2);
             this.splitContainer1.Panel2.Controls.Add(this.trackBar2);
             this.splitContainer1.Panel2.Controls.Add(this.trackBar1);
@@ -68,9 +72,9 @@
             this.Radius.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Radius.Location = new System.Drawing.Point(0, 56);
             this.Radius.Name = "Radius";
-            this.Radius.Size = new System.Drawing.Size(193, 56);
+            this.Radius.Size = new System.Drawing.Size(193, 94);
             this.Radius.TabIndex = 1;
-            this.Radius.Text = "Радиус";
+            this.Radius.Text = "Радиус ямы";
             // 
             // Charge
             // 
@@ -82,9 +86,26 @@
             this.Charge.TabIndex = 0;
             this.Charge.Text = "Заряд";
             // 
+            // label2
+            // 
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label2.Location = new System.Drawing.Point(279, 56);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(103, 56);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "-50";
+            // 
+            // label1
+            // 
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Location = new System.Drawing.Point(279, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(103, 56);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "-50";
+            // 
             // button2
             // 
-            this.button2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button2.Location = new System.Drawing.Point(0, 112);
             this.button2.Name = "button2";
@@ -96,26 +117,26 @@
             // 
             // trackBar2
             // 
-            this.trackBar2.Dock = System.Windows.Forms.DockStyle.Top;
             this.trackBar2.Location = new System.Drawing.Point(0, 56);
             this.trackBar2.Maximum = 50;
             this.trackBar2.Name = "trackBar2";
-            this.trackBar2.Size = new System.Drawing.Size(385, 56);
+            this.trackBar2.Size = new System.Drawing.Size(273, 56);
             this.trackBar2.TabIndex = 1;
             this.trackBar2.TickFrequency = 5;
             this.trackBar2.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.trackBar2.Scroll += new System.EventHandler(this.trackBar2_Scroll);
             // 
             // trackBar1
             // 
-            this.trackBar1.Dock = System.Windows.Forms.DockStyle.Top;
             this.trackBar1.Location = new System.Drawing.Point(0, 0);
-            this.trackBar1.Maximum = 50;
-            this.trackBar1.Minimum = -50;
+            this.trackBar1.Maximum = 99;
+            this.trackBar1.Minimum = -99;
             this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(385, 56);
+            this.trackBar1.Size = new System.Drawing.Size(273, 56);
             this.trackBar1.TabIndex = 0;
             this.trackBar1.TickFrequency = 10;
             this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
             // Form2
             // 
@@ -151,5 +172,7 @@
         public System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.Label Radius;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
     }
 }

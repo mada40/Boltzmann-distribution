@@ -81,8 +81,8 @@ namespace Boltzmann_distribution
             MyVector v = new MyVector(molPos, s.Position);
             float dist = (float)v.Length();
 
-            if (dist <= 1f)
-                return new MyVector(0,0);
+            if (dist < 1f)
+                return new MyVector();
 
             dist = Math.Max(dist, 50f);
             MyVector.normalize(ref v);
