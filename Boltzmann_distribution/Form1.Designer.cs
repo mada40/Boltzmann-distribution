@@ -29,14 +29,19 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea47 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series47 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title47 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea48 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series48 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title48 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title4 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.pageMain = new System.Windows.Forms.TabPage();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -60,11 +65,12 @@
             this.pauseButton = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pageAuthors = new System.Windows.Forms.TabPage();
-            this.label5 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.pictureBox7 = new System.Windows.Forms.PictureBox();
+            this.pictureBox6 = new System.Windows.Forms.PictureBox();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.label8 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.pageMain.SuspendLayout();
@@ -94,6 +100,9 @@
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pageAuthors.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -106,7 +115,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1920, 1080);
+            this.tabControl1.Size = new System.Drawing.Size(1622, 922);
             this.tabControl1.TabIndex = 0;
             // 
             // pageMain
@@ -122,10 +131,71 @@
             this.pageMain.Location = new System.Drawing.Point(4, 63);
             this.pageMain.Name = "pageMain";
             this.pageMain.Padding = new System.Windows.Forms.Padding(3);
-            this.pageMain.Size = new System.Drawing.Size(1912, 1013);
+            this.pageMain.Size = new System.Drawing.Size(1614, 855);
             this.pageMain.TabIndex = 0;
             this.pageMain.Text = "ГЛАВНАЯ";
             this.pageMain.UseVisualStyleBackColor = true;
+            // 
+            // label7
+            // 
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label7.Location = new System.Drawing.Point(217, 391);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(1191, 185);
+            this.label7.TabIndex = 7;
+            this.label7.Text = "Распределение Больцмана в сосудах различной формы";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label6
+            // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label6.Location = new System.Drawing.Point(362, 209);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(895, 150);
+            this.label6.TabIndex = 6;
+            this.label6.Text = "МГУ им. М. В. Ломоносова";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // button2
+            // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button2.Location = new System.Drawing.Point(680, 558);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(318, 68);
+            this.button2.TabIndex = 5;
+            this.button2.Text = "ТЕОРИЯ";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button2_MouseClick);
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button1.Location = new System.Drawing.Point(680, 632);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(318, 68);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "ВЫХОД";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button1_MouseClick);
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label5.Location = new System.Drawing.Point(680, 792);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(318, 58);
+            this.label5.TabIndex = 3;
+            this.label5.Text = "2022";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pictureBox4
             // 
@@ -141,7 +211,7 @@
             // 
             this.pictureBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(1706, 6);
+            this.pictureBox3.Location = new System.Drawing.Point(1408, 6);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(200, 200);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -155,7 +225,7 @@
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
             this.pictureBox2.Location = new System.Drawing.Point(753, 6);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(451, 200);
+            this.pictureBox2.Size = new System.Drawing.Size(153, 200);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox2.TabIndex = 0;
             this.pictureBox2.TabStop = false;
@@ -166,7 +236,7 @@
             this.pageModel.Location = new System.Drawing.Point(4, 63);
             this.pageModel.Name = "pageModel";
             this.pageModel.Padding = new System.Windows.Forms.Padding(3);
-            this.pageModel.Size = new System.Drawing.Size(1912, 1013);
+            this.pageModel.Size = new System.Drawing.Size(1614, 855);
             this.pageModel.TabIndex = 1;
             this.pageModel.Text = "МОДЕЛЬ";
             this.pageModel.UseVisualStyleBackColor = true;
@@ -190,8 +260,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.pictureBox1);
-            this.splitContainer1.Size = new System.Drawing.Size(1906, 1007);
-            this.splitContainer1.SplitterDistance = 601;
+            this.splitContainer1.Size = new System.Drawing.Size(1608, 849);
+            this.splitContainer1.SplitterDistance = 507;
             this.splitContainer1.SplitterWidth = 20;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -209,45 +279,45 @@
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.chart1);
-            this.splitContainer3.Size = new System.Drawing.Size(597, 669);
-            this.splitContainer3.SplitterDistance = 256;
+            this.splitContainer3.Size = new System.Drawing.Size(503, 511);
+            this.splitContainer3.SplitterDistance = 195;
             this.splitContainer3.TabIndex = 4;
             // 
             // chart2
             // 
-            chartArea47.Name = "ChartArea1";
-            this.chart2.ChartAreas.Add(chartArea47);
+            chartArea3.Name = "ChartArea1";
+            this.chart2.ChartAreas.Add(chartArea3);
             this.chart2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chart2.Location = new System.Drawing.Point(0, 0);
             this.chart2.Name = "chart2";
-            series47.ChartArea = "ChartArea1";
-            series47.Name = "Series1";
-            this.chart2.Series.Add(series47);
-            this.chart2.Size = new System.Drawing.Size(597, 256);
+            series3.ChartArea = "ChartArea1";
+            series3.Name = "Series1";
+            this.chart2.Series.Add(series3);
+            this.chart2.Size = new System.Drawing.Size(503, 195);
             this.chart2.TabIndex = 1;
             this.chart2.Text = "chart2";
-            title47.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            title47.Name = "Title1";
-            title47.Text = "Зависимотсть плотности расспределения от координаты Y";
-            this.chart2.Titles.Add(title47);
+            title3.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            title3.Name = "Title1";
+            title3.Text = "Зависимотсть плотности распределения от координаты Y";
+            this.chart2.Titles.Add(title3);
             // 
             // chart1
             // 
-            chartArea48.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea48);
+            chartArea4.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea4);
             this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chart1.Location = new System.Drawing.Point(0, 0);
             this.chart1.Name = "chart1";
-            series48.ChartArea = "ChartArea1";
-            series48.Name = "Series1";
-            this.chart1.Series.Add(series48);
-            this.chart1.Size = new System.Drawing.Size(597, 409);
+            series4.ChartArea = "ChartArea1";
+            series4.Name = "Series1";
+            this.chart1.Series.Add(series4);
+            this.chart1.Size = new System.Drawing.Size(503, 312);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
-            title48.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            title48.Name = "Title1";
-            title48.Text = "Зависимотсть плотности расспределения от координаты X";
-            this.chart1.Titles.Add(title48);
+            title4.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            title4.Name = "Title1";
+            title4.Text = "Зависимотсть плотности распределения от координаты X";
+            this.chart1.Titles.Add(title4);
             // 
             // panel2
             // 
@@ -255,7 +325,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 105);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(597, 229);
+            this.panel2.Size = new System.Drawing.Size(503, 229);
             this.panel2.TabIndex = 3;
             // 
             // splitContainer2
@@ -277,8 +347,8 @@
             this.splitContainer2.Panel2.Controls.Add(this.trackBarTemperature);
             this.splitContainer2.Panel2.Controls.Add(this.trackBarRadius);
             this.splitContainer2.Panel2.Controls.Add(this.trackBarCount);
-            this.splitContainer2.Size = new System.Drawing.Size(597, 229);
-            this.splitContainer2.SplitterDistance = 195;
+            this.splitContainer2.Size = new System.Drawing.Size(503, 229);
+            this.splitContainer2.SplitterDistance = 164;
             this.splitContainer2.TabIndex = 0;
             // 
             // label4
@@ -288,7 +358,7 @@
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label4.Location = new System.Drawing.Point(0, 162);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(195, 62);
+            this.label4.Size = new System.Drawing.Size(164, 62);
             this.label4.TabIndex = 3;
             this.label4.Text = "X1";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -300,7 +370,7 @@
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 22.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label3.Location = new System.Drawing.Point(0, 108);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(195, 54);
+            this.label3.Size = new System.Drawing.Size(164, 54);
             this.label3.TabIndex = 2;
             this.label3.Text = "Температура";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -311,7 +381,7 @@
             this.label2.Dock = System.Windows.Forms.DockStyle.Top;
             this.label2.Location = new System.Drawing.Point(0, 54);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(195, 54);
+            this.label2.Size = new System.Drawing.Size(164, 54);
             this.label2.TabIndex = 1;
             this.label2.Text = "Радиус";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -322,7 +392,7 @@
             this.label1.Dock = System.Windows.Forms.DockStyle.Top;
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(195, 54);
+            this.label1.Size = new System.Drawing.Size(164, 54);
             this.label1.TabIndex = 0;
             this.label1.Text = "Количество";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -334,7 +404,7 @@
             this.trackBarSpeed.Maximum = 6;
             this.trackBarSpeed.Minimum = 1;
             this.trackBarSpeed.Name = "trackBarSpeed";
-            this.trackBarSpeed.Size = new System.Drawing.Size(398, 56);
+            this.trackBarSpeed.Size = new System.Drawing.Size(335, 56);
             this.trackBarSpeed.TabIndex = 3;
             this.trackBarSpeed.Value = 4;
             this.trackBarSpeed.Scroll += new System.EventHandler(this.trackBar4_Scroll);
@@ -345,7 +415,7 @@
             this.trackBarTemperature.Location = new System.Drawing.Point(0, 112);
             this.trackBarTemperature.Maximum = 100;
             this.trackBarTemperature.Name = "trackBarTemperature";
-            this.trackBarTemperature.Size = new System.Drawing.Size(398, 56);
+            this.trackBarTemperature.Size = new System.Drawing.Size(335, 56);
             this.trackBarTemperature.TabIndex = 2;
             this.trackBarTemperature.TickFrequency = 10;
             this.trackBarTemperature.Scroll += new System.EventHandler(this.trackBarTemperature_Scroll);
@@ -357,7 +427,7 @@
             this.trackBarRadius.Maximum = 20;
             this.trackBarRadius.Minimum = 3;
             this.trackBarRadius.Name = "trackBarRadius";
-            this.trackBarRadius.Size = new System.Drawing.Size(398, 56);
+            this.trackBarRadius.Size = new System.Drawing.Size(335, 56);
             this.trackBarRadius.TabIndex = 1;
             this.trackBarRadius.Value = 3;
             this.trackBarRadius.Scroll += new System.EventHandler(this.trackBar2_Scroll);
@@ -367,7 +437,7 @@
             this.trackBarCount.Dock = System.Windows.Forms.DockStyle.Top;
             this.trackBarCount.Location = new System.Drawing.Point(0, 0);
             this.trackBarCount.Name = "trackBarCount";
-            this.trackBarCount.Size = new System.Drawing.Size(398, 56);
+            this.trackBarCount.Size = new System.Drawing.Size(335, 56);
             this.trackBarCount.TabIndex = 0;
             this.trackBarCount.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
@@ -378,14 +448,14 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(597, 105);
+            this.panel1.Size = new System.Drawing.Size(503, 105);
             this.panel1.TabIndex = 2;
             // 
             // claerButton
             // 
             this.claerButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.claerButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.claerButton.Location = new System.Drawing.Point(494, 3);
+            this.claerButton.Location = new System.Drawing.Point(400, 3);
             this.claerButton.Name = "claerButton";
             this.claerButton.Size = new System.Drawing.Size(100, 100);
             this.claerButton.TabIndex = 1;
@@ -408,7 +478,7 @@
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1281, 1003);
+            this.pictureBox1.Size = new System.Drawing.Size(1077, 845);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.SizeChanged += new System.EventHandler(this.pictureBox1_SizeChanged);
@@ -420,83 +490,89 @@
             // 
             // pageAuthors
             // 
+            this.pageAuthors.Controls.Add(this.label11);
+            this.pageAuthors.Controls.Add(this.label10);
+            this.pageAuthors.Controls.Add(this.label9);
+            this.pageAuthors.Controls.Add(this.pictureBox7);
+            this.pageAuthors.Controls.Add(this.pictureBox6);
+            this.pageAuthors.Controls.Add(this.pictureBox5);
             this.pageAuthors.Controls.Add(this.label8);
             this.pageAuthors.Location = new System.Drawing.Point(4, 63);
             this.pageAuthors.Name = "pageAuthors";
             this.pageAuthors.Padding = new System.Windows.Forms.Padding(3);
-            this.pageAuthors.Size = new System.Drawing.Size(1912, 1013);
+            this.pageAuthors.Size = new System.Drawing.Size(1614, 855);
             this.pageAuthors.TabIndex = 2;
             this.pageAuthors.Text = "АВТОРЫ";
             this.pageAuthors.UseVisualStyleBackColor = true;
             // 
-            // label5
+            // label11
             // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label5.Location = new System.Drawing.Point(680, 950);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(616, 58);
-            this.label5.TabIndex = 3;
-            this.label5.Text = "2022";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label11.Location = new System.Drawing.Point(1165, 726);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(441, 87);
+            this.label11.TabIndex = 6;
+            this.label11.Text = "Полина Кривуля";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // button1
+            // label10
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.Location = new System.Drawing.Point(680, 790);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(616, 68);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "ВЫХОД";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button1_MouseClick);
+            this.label10.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label10.Location = new System.Drawing.Point(595, 726);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(497, 87);
+            this.label10.TabIndex = 5;
+            this.label10.Text = "Никита Панин";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // button2
+            // label9
             // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button2.Location = new System.Drawing.Point(680, 716);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(616, 68);
-            this.button2.TabIndex = 5;
-            this.button2.Text = "ТЕОРИЯ";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button2_MouseClick);
+            this.label9.Location = new System.Drawing.Point(6, 726);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(506, 87);
+            this.label9.TabIndex = 4;
+            this.label9.Text = "Иван Листопадов";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label6
+            // pictureBox7
             // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label6.Location = new System.Drawing.Point(362, 209);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(1193, 150);
-            this.label6.TabIndex = 6;
-            this.label6.Text = "МГУ им. М. В. Ломоносова";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.pictureBox7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox7.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox7.Image")));
+            this.pictureBox7.Location = new System.Drawing.Point(1162, 53);
+            this.pictureBox7.Name = "pictureBox7";
+            this.pictureBox7.Size = new System.Drawing.Size(444, 657);
+            this.pictureBox7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox7.TabIndex = 3;
+            this.pictureBox7.TabStop = false;
             // 
-            // label7
+            // pictureBox6
             // 
-            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label7.Location = new System.Drawing.Point(217, 391);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(1489, 185);
-            this.label7.TabIndex = 7;
-            this.label7.Text = "Расспределение Больцмана в сосудах розлчичной формы";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.pictureBox6.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.pictureBox6.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox6.Image")));
+            this.pictureBox6.Location = new System.Drawing.Point(595, 53);
+            this.pictureBox6.Name = "pictureBox6";
+            this.pictureBox6.Size = new System.Drawing.Size(497, 657);
+            this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox6.TabIndex = 2;
+            this.pictureBox6.TabStop = false;
+            // 
+            // pictureBox5
+            // 
+            this.pictureBox5.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox5.Image")));
+            this.pictureBox5.Location = new System.Drawing.Point(6, 53);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Size = new System.Drawing.Size(506, 657);
+            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox5.TabIndex = 1;
+            this.pictureBox5.TabStop = false;
             // 
             // label8
             // 
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label8.Location = new System.Drawing.Point(3, 926);
+            this.label8.Location = new System.Drawing.Point(3, 768);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(1901, 82);
+            this.label8.Size = new System.Drawing.Size(1603, 82);
             this.label8.TabIndex = 0;
             this.label8.Text = "Научный руководитель: Чичигина Ольга Александровна";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -505,7 +581,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1920, 1080);
+            this.ClientSize = new System.Drawing.Size(1622, 922);
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.KeyPreview = true;
@@ -542,6 +618,9 @@
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.pageAuthors.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -579,6 +658,12 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.PictureBox pictureBox5;
+        private System.Windows.Forms.PictureBox pictureBox7;
+        private System.Windows.Forms.PictureBox pictureBox6;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label9;
     }
 }
 

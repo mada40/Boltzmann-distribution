@@ -40,7 +40,7 @@ namespace Boltzmann_distribution
             Size size = pictureBox1.Size;
             RectangleF boundsWorld = new RectangleF(new PointF(0, 0), size);
 
-            world = new World(boundsWorld, 100);
+            world = new World(boundsWorld, 70);
 
             lastTime = DateTime.Now;
 
@@ -93,7 +93,7 @@ namespace Boltzmann_distribution
             try
             {
                 if (!isPause)
-                    world.update(deltatime, 4);
+                    world.update(deltatime, 20);
 
                 world.draw(ref g, deltatime);
             }
@@ -101,9 +101,15 @@ namespace Boltzmann_distribution
             {
                 allClear();
             }
-            
 
+            double midSpeed = 0.0;
+            for (int i = 0; i < world.CountActMol; i++)
+            {
+                midSpeed += world[i].Vector.Length();
+            }
+            midSpeed /= world.CountActMol;
             //pageAuthors.Text = (1000 / deltatime * coeffSpeed).ToString();
+            //pageAuthors.Text = midSpeed.ToString();
             Pen penForArrLines = new Pen(Color.Gray, 1);
             vp.draw(ref g, penForArrLines, deltatime);
             pictureBox1.Image = bmp;

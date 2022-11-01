@@ -21,8 +21,11 @@ namespace Boltzmann_distribution
 
         public double F(double x)
         {
+            if (x < 1.0) 
+                return 0;
+
             double ans = (1.0 / (x * x) - RaduisWell / (x * x * x));  
-            return ans;
+            return Math.Min(ans, 0.0001);
         }
 
         double time = 0;
@@ -37,7 +40,7 @@ namespace Boltzmann_distribution
             if (Charge == 0.0)
                 return;
 
-            R = RaduisWell + 2f * Math.Abs(Charge);
+            R = RaduisWell + 6f * Math.Abs(Charge);
             rect = new RectangleF(Position.X - R, Position.Y - R, 2 * R, 2 * R);
             g.FillEllipse(new SolidBrush(Color.FromArgb(64,255,255,255)), rect);
             for (int j = 0; j < 2; j++)
@@ -53,7 +56,7 @@ namespace Boltzmann_distribution
                     
                     if(j == 0)
                     {
-                        R = RaduisWell + 2f * Math.Abs(Charge) * x;
+                        R = RaduisWell + 6f * Math.Abs(Charge) * x;
                     }
                     else
                     {

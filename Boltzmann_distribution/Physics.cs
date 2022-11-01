@@ -79,12 +79,8 @@ namespace Boltzmann_distribution
         static public MyVector CoulombInteraction(SourceField s, PointF molPos)
         {
             MyVector v = new MyVector(molPos, s.Position);
-            float dist = (float)v.Length();
+            double dist = v.Length();
 
-            if (dist < 1f)
-                return new MyVector();
-
-            dist = Math.Max(dist, 50f);
             MyVector.normalize(ref v);
             MyVector gravVec = v * s.Charge * s.F(dist);   
             return gravVec;

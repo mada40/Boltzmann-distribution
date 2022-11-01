@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Security.AccessControl;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -194,7 +195,9 @@ namespace Boltzmann_distribution
             if (passiveObj is SourceField s)
             {
                 MyVector grav = Physics.CoulombInteraction(s, actMol.Position);
-                offset += grav;
+                double speed = actMol.Vector.Length();
+                if (speed > 0.6)
+                    actMol.Vector *= (0.6 / speed);
                 actMol.Vector += grav;
             }
             double k = actMol.GetPossibleMaxOffset(passiveObj, offset);
