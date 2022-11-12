@@ -29,7 +29,7 @@ namespace Boltzmann_distribution
         ArrayLines vp;
         static DateTime lastTime;
         double coeffSpeed = 1.0;
-        const int N = 30;
+        const int N = 10;
         public MainForm()
         {
             InitializeComponent();
@@ -40,7 +40,7 @@ namespace Boltzmann_distribution
             Size size = pictureBox1.Size;
             RectangleF boundsWorld = new RectangleF(new PointF(0, 0), size);
 
-            world = new World(boundsWorld, 70);
+            world = new World(boundsWorld, 75);
 
             lastTime = DateTime.Now;
 
@@ -258,6 +258,7 @@ namespace Boltzmann_distribution
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             world.CountActMol = trackBarCount.Value;
+            label1.Text = "Количество: " +  trackBarCount.Value.ToString();
             world.pushOutAllMolecules();
         }
 
@@ -288,12 +289,12 @@ namespace Boltzmann_distribution
              Form2 f2 = new Form2();
              f2.pos = e.Location;
              f2.Show();
-
         }
 
         private void button1_MouseClick(object sender, MouseEventArgs e)
         {
             Close();
+            Dispose();
         }
 
         private void pageModel_Leave(object sender, EventArgs e)
@@ -303,7 +304,16 @@ namespace Boltzmann_distribution
 
         private void button2_MouseClick(object sender, MouseEventArgs e)
         {
-            Process.Start(@"Theory.pdf");
+            try
+            {
+                var proc = Process.Start(@"https://docs.google.com/document/d/1NdwCArv2xffdeXgb7NO7TtBSbuGNnlMFkNmZk9t8lkE/edit?pli=1");
+                proc.Close();
+                proc.Dispose();
+            }
+            catch
+            {
+                
+            }
         }
     }
 }

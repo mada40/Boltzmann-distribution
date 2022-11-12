@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title4 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea7 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title7 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea8 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title8 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.pageMain = new System.Windows.Forms.TabPage();
             this.label7 = new System.Windows.Forms.Label();
@@ -261,7 +261,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.pictureBox1);
             this.splitContainer1.Size = new System.Drawing.Size(1608, 849);
-            this.splitContainer1.SplitterDistance = 507;
+            this.splitContainer1.SplitterDistance = 506;
             this.splitContainer1.SplitterWidth = 20;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -279,45 +279,45 @@
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.chart1);
-            this.splitContainer3.Size = new System.Drawing.Size(503, 511);
+            this.splitContainer3.Size = new System.Drawing.Size(502, 511);
             this.splitContainer3.SplitterDistance = 195;
             this.splitContainer3.TabIndex = 4;
             // 
             // chart2
             // 
-            chartArea3.Name = "ChartArea1";
-            this.chart2.ChartAreas.Add(chartArea3);
+            chartArea7.Name = "ChartArea1";
+            this.chart2.ChartAreas.Add(chartArea7);
             this.chart2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chart2.Location = new System.Drawing.Point(0, 0);
             this.chart2.Name = "chart2";
-            series3.ChartArea = "ChartArea1";
-            series3.Name = "Series1";
-            this.chart2.Series.Add(series3);
-            this.chart2.Size = new System.Drawing.Size(503, 195);
+            series7.ChartArea = "ChartArea1";
+            series7.Name = "Series1";
+            this.chart2.Series.Add(series7);
+            this.chart2.Size = new System.Drawing.Size(502, 195);
             this.chart2.TabIndex = 1;
             this.chart2.Text = "chart2";
-            title3.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            title3.Name = "Title1";
-            title3.Text = "Зависимотсть плотности распределения от координаты Y";
-            this.chart2.Titles.Add(title3);
+            title7.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            title7.Name = "Title1";
+            title7.Text = "Зависимотсть плотности распределения от координаты Y";
+            this.chart2.Titles.Add(title7);
             // 
             // chart1
             // 
-            chartArea4.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea4);
+            chartArea8.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea8);
             this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chart1.Location = new System.Drawing.Point(0, 0);
             this.chart1.Name = "chart1";
-            series4.ChartArea = "ChartArea1";
-            series4.Name = "Series1";
-            this.chart1.Series.Add(series4);
-            this.chart1.Size = new System.Drawing.Size(503, 312);
+            series8.ChartArea = "ChartArea1";
+            series8.Name = "Series1";
+            this.chart1.Series.Add(series8);
+            this.chart1.Size = new System.Drawing.Size(502, 312);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
-            title4.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            title4.Name = "Title1";
-            title4.Text = "Зависимотсть плотности распределения от координаты X";
-            this.chart1.Titles.Add(title4);
+            title8.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            title8.Name = "Title1";
+            title8.Text = "Зависимотсть плотности распределения от координаты X";
+            this.chart1.Titles.Add(title8);
             // 
             // panel2
             // 
@@ -325,7 +325,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 105);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(503, 229);
+            this.panel2.Size = new System.Drawing.Size(502, 229);
             this.panel2.TabIndex = 3;
             // 
             // splitContainer2
@@ -347,8 +347,8 @@
             this.splitContainer2.Panel2.Controls.Add(this.trackBarTemperature);
             this.splitContainer2.Panel2.Controls.Add(this.trackBarRadius);
             this.splitContainer2.Panel2.Controls.Add(this.trackBarCount);
-            this.splitContainer2.Size = new System.Drawing.Size(503, 229);
-            this.splitContainer2.SplitterDistance = 164;
+            this.splitContainer2.Size = new System.Drawing.Size(502, 229);
+            this.splitContainer2.SplitterDistance = 163;
             this.splitContainer2.TabIndex = 0;
             // 
             // label4
@@ -358,7 +358,7 @@
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label4.Location = new System.Drawing.Point(0, 162);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(164, 62);
+            this.label4.Size = new System.Drawing.Size(163, 62);
             this.label4.TabIndex = 3;
             this.label4.Text = "X1";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -370,7 +370,7 @@
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 22.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label3.Location = new System.Drawing.Point(0, 108);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(164, 54);
+            this.label3.Size = new System.Drawing.Size(163, 54);
             this.label3.TabIndex = 2;
             this.label3.Text = "Температура";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -381,7 +381,7 @@
             this.label2.Dock = System.Windows.Forms.DockStyle.Top;
             this.label2.Location = new System.Drawing.Point(0, 54);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(164, 54);
+            this.label2.Size = new System.Drawing.Size(163, 54);
             this.label2.TabIndex = 1;
             this.label2.Text = "Радиус";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -390,11 +390,12 @@
             // 
             this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(164, 54);
+            this.label1.Size = new System.Drawing.Size(163, 54);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Количество";
+            this.label1.Text = "Количество: 0";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // trackBarSpeed
@@ -448,14 +449,14 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(503, 105);
+            this.panel1.Size = new System.Drawing.Size(502, 105);
             this.panel1.TabIndex = 2;
             // 
             // claerButton
             // 
             this.claerButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.claerButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.claerButton.Location = new System.Drawing.Point(400, 3);
+            this.claerButton.Location = new System.Drawing.Point(399, 3);
             this.claerButton.Name = "claerButton";
             this.claerButton.Size = new System.Drawing.Size(100, 100);
             this.claerButton.TabIndex = 1;
@@ -478,7 +479,7 @@
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1077, 845);
+            this.pictureBox1.Size = new System.Drawing.Size(1078, 845);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.SizeChanged += new System.EventHandler(this.pictureBox1_SizeChanged);
