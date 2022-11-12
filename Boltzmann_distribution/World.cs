@@ -16,6 +16,7 @@ namespace Boltzmann_distribution
         private Pen penForBuffer = new Pen(Color.Red, 4f);
         private Pen penForPassObj = new Pen(Color.Black, 2f);
         private Pen penForMolecule = new Pen(Color.Orange, 1f);
+        private Pen penForFirstMolecule = new Pen(Color.Blue, 1f);
         public int CountActMol { get; set; }
         public int MaxCountMolecules { get; private set; }
         public int CountLines { get; private set; }
@@ -196,8 +197,8 @@ namespace Boltzmann_distribution
             {
                 MyVector grav = Physics.CoulombInteraction(s, actMol.Position);
                 double speed = actMol.Vector.Length();
-                if (speed > 0.6)
-                    actMol.Vector *= (0.6 / speed);
+                if (speed > 0.7)
+                    actMol.Vector *= (0.7 / speed);
                 actMol.Vector += grav;
             }
             double k = actMol.GetPossibleMaxOffset(passiveObj, offset);
@@ -250,8 +251,11 @@ namespace Boltzmann_distribution
             {
                 phObject.draw(ref g, penForPassObj, deltatime);
             }
-
-            for(int i = 0; i < CountActMol; ++i)
+            if(CountActMol >= 1)
+            {
+                molecules[0].draw(ref g, penForFirstMolecule, deltatime);
+            }
+            for(int i = 1; i < CountActMol; ++i)
             {
                 molecules[i].draw(ref g, penForMolecule, deltatime);
             }
