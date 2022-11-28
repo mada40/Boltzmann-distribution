@@ -18,18 +18,29 @@ namespace Boltzmann_distribution
     public partial class MainForm : Form
     {
         const int MIN_SQ_LEN = 30*30;
+        const float ERASER_R = 30f;
+        const int N = 10;
+        const string COUNT_STR_RU = "Количество";
+        const string COUNT_STR_EN = "Count";
+
+        const string SPEED_STR_RU = "Скорость расчета";
+        const string SPEED_STR_EN = "Сalculation speed";
+
         Graphics g;
         Bitmap bmp;
 
+        Pen penForArrLines = new Pen(Color.Gray, 1);
         bool isMouse = false;
+        bool isEraser = false; 
         bool isPause = true;
+        bool isRussian = true;
 
-        
+        PointF posEraser;
+
         public static World world;
         ArrayLines vp;
         static DateTime lastTime;
         double coeffSpeed = 1.0;
-        const int N = 10;
         public MainForm()
         {
             InitializeComponent();
@@ -41,39 +52,119 @@ namespace Boltzmann_distribution
             RectangleF boundsWorld = new RectangleF(new PointF(0, 0), size);
 
             world = new World(boundsWorld, 75);
+            world.add(new SourceField(new PointF(75, 75), 50, 0));
+            world.CountActMol = 45;
 
             lastTime = DateTime.Now;
 
             vp = new ArrayLines(MIN_SQ_LEN);
 
             trackBarCount.Maximum = world.MaxCountMolecules;
+            trackBarCount.Value = world.CountActMol;
             trackBarRadius.Value = (int)Molecule.R_DEF;
 
 
 
             initializationAllCharts();
-            
+            translateALL(true);
+            labelCount.Text += ": " + trackBarCount.Value.ToString();
 
+        }
+
+        public void translateALL(bool isRu)
+        {
+            if(isRu)
+            {
+                pageAuthors.Text = "АВТОРЫ";
+                pageMain.Text = "ГЛАВНАЯ";
+                pageModel.Text = "МОДЕЛЬ";
+
+                buttonExit.Text = "ВЫХОД";
+                buttonTheory.Text = "ТЕОРИЯ";
+                buttonChangeLanguage.Text = "Язык: Русский";
+
+                labelMSU.Text = "МГУ им. М. В. Ломоносова";
+                labelName.Text = "Распределение Больцмана в сосудах различной формы";
+                labelRadius.Text = "Радиус";
+                labelTemperature.Text = "Температура";
+                labelCount.Text = COUNT_STR_RU;
+                labelSpeed.Text = SPEED_STR_RU;
+
+                chart2.Titles[0].Text = "Плотность распределения по координатам";
+                chart2.ChartAreas[0].AxisY.Title = "ЧИСЛО\nМОЛЕКУЛ";
+                chart2.ChartAreas[1].AxisY.Title = "ЧИСЛО\nМОЛЕКУЛ";
+
+                labelPolina.Text = "Кривуля Полина";
+                labelIvan.Text = "Листопадов Иван";
+                labelNikita.Text = "Панин Никита";
+
+                labelOlga.Text = "Научный руководитель: Чичигина Ольга Александровна";
+
+            }
+            else
+            {
+                pageAuthors.Text = "AUTHORS";
+                pageMain.Text = "MAIN";
+                pageModel.Text = "MODEL";
+
+                buttonExit.Text = "EXIT";
+                buttonTheory.Text = "THEORY";
+                buttonChangeLanguage.Text = "Language: English";
+
+                labelMSU.Text = "Lomonosov Moscow State University";
+                labelName.Text = "Boltzmann distribution in vessels of various shapes";
+
+                labelRadius.Text = "Radius";
+                labelTemperature.Text = "Temperature";
+                labelCount.Text = COUNT_STR_EN;
+                labelSpeed.Text = SPEED_STR_EN;
+
+                chart2.Titles[0].Text = "Distribution density by coordinates";
+                chart2.ChartAreas[0].AxisY.Title = "NUMBER OF \nMOLECULES";
+                chart2.ChartAreas[1].AxisY.Title = "NUMBER OF \nMOLECULES";
+
+                labelPolina.Text = "Krivulya Polina";
+                labelIvan.Text = "Listopadov Ivan";
+                labelNikita.Text = "Panin Nikita";
+
+                labelOlga.Text = "Scientific supervisor: Olga Alexandrovna Chichigina";
+            }
         }
 
         public void initializationAllCharts()
         {
             for (int i = 0; i < N; i++)
             {
-                chart1.Series[0].Points.Add(0);
                 chart2.Series[0].Points.Add(0);
+                chart2.Series[1].Points.Add(0);
             }
 
-            chart1.ChartAreas[0].AxisX.Title = "КООРДИНАТА X";
-            chart1.ChartAreas[0].AxisY.Title = "КОЛИЧЕСТВО\nМОЛЕКУЛ";
+            FontFamily fontFamily = chart2.ChartAreas[0].AxisX.TitleFont.FontFamily;
 
-            chart2.ChartAreas[0].AxisX.Title = "КООРДИНАТА Y";
-            chart2.ChartAreas[0].AxisY.Title = "КОЛИЧЕСТВО\nМОЛЕКУЛ";
+            chart2.ChartAreas[0].AxisX.Title = "X";
+            chart2.ChartAreas[1].AxisX.Title = "Y";
+            for (int i = 0; i < 2; i++)
+            {
+                
+                chart2.ChartAreas[i].AxisY.TitleFont = new Font(fontFamily, 14f);
+              
+                chart2.ChartAreas[i].AxisX.TitleFont = new Font(fontFamily, 17f);
+                chart2.ChartAreas[i].AxisX.LabelStyle.Font = new Font(fontFamily, 12f);
+                chart2.ChartAreas[i].AxisY.LabelStyle.Font = new Font(fontFamily, 14f);
+            }
+
+            int kX = (pictureBox1.Width + N - 1) / N;
+            int kY = (pictureBox1.Height + N - 1) / N;
+
+            chart2.ChartAreas[0].AxisX.Minimum = 0;
+            chart2.ChartAreas[0].AxisX.Maximum = pictureBox1.Width;
+            chart2.ChartAreas[0].AxisX.Interval = kX;
+
+            chart2.ChartAreas[1].AxisX.Minimum = 0;
+            chart2.ChartAreas[1].AxisX.Maximum = pictureBox1.Height;
+            chart2.ChartAreas[1].AxisX.Interval = kY;
+
         }
-
-
-
-
         public static double DeltaMS()
         {
             var now = DateTime.Now;
@@ -101,19 +192,17 @@ namespace Boltzmann_distribution
             {
                 allClear();
             }
-
-            double midSpeed = 0.0;
-            for (int i = 0; i < world.CountActMol; i++)
-            {
-                midSpeed += world[i].Vector.Length();
-            }
-            midSpeed /= world.CountActMol;
-            //pageAuthors.Text = (1000 / deltatime * coeffSpeed).ToString();
-            //pageAuthors.Text = midSpeed.ToString();
-            Pen penForArrLines = new Pen(Color.Gray, 1);
+           
             vp.draw(ref g, penForArrLines, deltatime);
-            pictureBox1.Image = bmp;
 
+            if(isEraser)
+            {
+                float x = posEraser.X;
+                float y = posEraser.Y;
+                g.DrawEllipse(penForArrLines, x - ERASER_R, y - ERASER_R, 2 * ERASER_R, 2 * ERASER_R);
+            }
+            pictureBox1.Image = bmp;
+            //pageAuthors.Text = (1000.0 / deltatime / coeffSpeed).ToString();
             updateCharts(deltatime);
         }
 
@@ -137,27 +226,21 @@ namespace Boltzmann_distribution
                 maxX = Math.Max(maxX, tmpX[x]);
                 maxY = Math.Max(maxY, tmpY[y]);
             }
-            double lastMaxX = chart1.ChartAreas[0].AxisY.Maximum;
-            double lastMaxY = chart2.ChartAreas[0].AxisY.Maximum;
+            double lastMaxX = chart2.ChartAreas[0].AxisY.Maximum;
+            double lastMaxY = chart2.ChartAreas[1].AxisY.Maximum;
 
-            chart1.ChartAreas[0].AxisX.Maximum = pictureBox1.Width;
-            chart1.ChartAreas[0].AxisX.Interval = kX;
-
-            chart2.ChartAreas[0].AxisX.Maximum = pictureBox1.Height;
-            chart2.ChartAreas[0].AxisX.Interval = kY;
 
             if (maxX > lastMaxX || maxX * 2 < lastMaxX)
-                chart1.ChartAreas[0].AxisY.Maximum = maxX;
+                chart2.ChartAreas[0].AxisY.Maximum = maxX;
 
             if (maxY > lastMaxY || maxY * 2 < lastMaxY)
-                chart2.ChartAreas[0].AxisY.Maximum = maxY;
+                chart2.ChartAreas[1].AxisY.Maximum = maxY;
 
-            splitContainer3.SplitterDistance = splitContainer3.Height / 2;
 
             for (int i = 0; i < N; i++)
             {
-                chart1.Series[0].Points[i] = new DataPoint(i * kX, tmpX[i]);
-                chart2.Series[0].Points[i] = new DataPoint(i * kY, tmpY[i]);
+                chart2.Series[0].Points[i] = new DataPoint(i * kX, tmpX[i]);
+                chart2.Series[1].Points[i] = new DataPoint(i * kY, tmpY[i]);
             }
         }
 
@@ -182,30 +265,52 @@ namespace Boltzmann_distribution
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
-            isMouse = true;
-            vp.posMouse = e.Location;
-            vp.addPoint(e.Location);
+            if(e.Button == MouseButtons.Left)
+            {
+                isMouse = true;
+                vp.posMouse = e.Location;
+                vp.addPoint(e.Location);
+            }
+            else
+            {
+                isEraser = true;
+                posEraser = e.Location;
+                world.remove(e.Location, ERASER_R);
+            }
         }
 
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
-            isMouse = false;
-            vp.addPoint(e.Location, true);
-            for (int i = 0; i < vp.getCount(); i++)
+            if (isMouse)
             {
-                world.add(vp[i]);
+                vp.addPoint(e.Location, true);
+                for (int i = 0; i < vp.getCount(); i++)
+                {
+                    world.add(vp[i]);
+                }
+                vp.clear();
             }
-            vp.clear();
+            isMouse = false;
+            isEraser = false;
+
         }
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
             //world[0].Position = e.Location;
 
-            if (!isMouse) 
-                return;
-            vp.posMouse = e.Location;
-            vp.addPoint(e.Location);
+            if (isMouse)
+            {
+                vp.posMouse = e.Location;
+                vp.addPoint(e.Location);
+            }
+
+            if(isEraser)
+            {
+                posEraser = e.Location;
+                world.remove(e.Location, ERASER_R);
+            }
+
             
         }
 
@@ -214,7 +319,7 @@ namespace Boltzmann_distribution
             
             lastTime = DateTime.Now;
             trackBarSpeed.Value = 8 / 2;
-            label4.Text =  "Скорость расчета: " + coeffSpeed.ToString() + "X";
+            labelSpeed.Text =  (isRussian? SPEED_STR_RU: SPEED_STR_EN) + ": " + coeffSpeed.ToString() + "X";
         }
 
         private void pauseButton_MouseClick(object sender, MouseEventArgs e)
@@ -228,6 +333,8 @@ namespace Boltzmann_distribution
             vp.clear();
             trackBarCount.Value = 0;
             isPause = true;
+            isMouse = false;
+            isEraser = false;
         }
         private void claerButton_MouseClick(object sender, MouseEventArgs e)
         {
@@ -238,7 +345,7 @@ namespace Boltzmann_distribution
         {
             coeffSpeed = 2.0 * trackBarSpeed.Value / 8;
 
-            label4.Text = "Скорость расчета: " + coeffSpeed.ToString() + "X";
+            labelSpeed.Text = (isRussian ? SPEED_STR_RU : SPEED_STR_EN) + ": " + coeffSpeed.ToString() + "X";
 
         }
 
@@ -247,18 +354,22 @@ namespace Boltzmann_distribution
             if (world != null)
             {
                 world.Bounds = pictureBox1.Bounds;
+
+                for(int i = 0; i < 150; i++)
+                    world.update(10.0, 20);
             }
 
-
+            initializationAllCharts();
             bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             g = Graphics.FromImage(bmp);
+
 
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             world.CountActMol = trackBarCount.Value;
-            label1.Text = "Количество: " +  trackBarCount.Value.ToString();
+            labelCount.Text = (isRussian ? COUNT_STR_RU : COUNT_STR_EN) + ": " +  trackBarCount.Value.ToString();
             world.pushOutAllMolecules();
         }
 
@@ -286,7 +397,7 @@ namespace Boltzmann_distribution
 
         private void pictureBox1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-             Form2 f2 = new Form2();
+             Form2 f2 = new Form2(isRussian);
              f2.pos = e.Location;
              f2.Show();
         }
@@ -300,6 +411,8 @@ namespace Boltzmann_distribution
         private void pageModel_Leave(object sender, EventArgs e)
         {
             isPause = true;
+            isMouse = false;
+            isEraser = false;
         }
 
         private void button2_MouseClick(object sender, MouseEventArgs e)
@@ -314,6 +427,12 @@ namespace Boltzmann_distribution
             {
                 
             }
+        }
+
+        private void buttonChangeLanguage_MouseClick(object sender, MouseEventArgs e)
+        {
+            isRussian = !isRussian;
+            translateALL(isRussian);
         }
     }
 }

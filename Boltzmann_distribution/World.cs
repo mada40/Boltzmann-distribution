@@ -41,6 +41,7 @@ namespace Boltzmann_distribution
                 {
                     molecules[i].setRandomPos(rnd.Next(), _bounds);
                 }
+                pushOutAllMolecules();
             }
         }
 
@@ -111,6 +112,32 @@ namespace Boltzmann_distribution
             bufferPassObj.Clear();
             bufferPassObj.AddRange(newBuff);
 
+        }
+
+        public void remove(PointF pos, float R)
+        {
+            for(int i = 4; i < passiveObject.Count; ++i)
+            {
+                if (passiveObject[i] is Line l)
+                {
+                    if(MyMath.isInsercted(pos, R, l.Position, l.Point2))
+                    {
+                        passiveObject.RemoveAt(i);
+                        i--;
+                        continue;
+                    }
+                }
+
+                if (passiveObject[i] is SourceField s)
+                {
+                    if(MyMath.isInsercted(pos, R, s.Position, 0f))
+                    {
+                        passiveObject.RemoveAt(i);
+                        i--;
+                        continue;
+                    }
+                }
+            }
         }
 
         private int cntAddedMol = 0;

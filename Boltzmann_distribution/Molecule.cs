@@ -10,7 +10,7 @@ namespace Boltzmann_distribution
 {
     public class Molecule : PhysicalObject
     {
-        public const float R_DEF = 15f;
+        public const float R_DEF = 12f;
         public float R { get; set; }
         public MyVector Vector { get; set; }
         private const float EPS = 0.0001F;

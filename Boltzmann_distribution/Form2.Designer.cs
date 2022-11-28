@@ -33,9 +33,9 @@
             this.Charge = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
             this.trackBar2 = new System.Windows.Forms.TrackBar();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.button2 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -71,7 +71,7 @@
             // Radius
             // 
             this.Radius.Dock = System.Windows.Forms.DockStyle.Top;
-            this.Radius.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Radius.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Radius.Location = new System.Drawing.Point(0, 56);
             this.Radius.Name = "Radius";
             this.Radius.Size = new System.Drawing.Size(225, 94);
@@ -81,7 +81,7 @@
             // Charge
             // 
             this.Charge.Dock = System.Windows.Forms.DockStyle.Top;
-            this.Charge.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Charge.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Charge.Location = new System.Drawing.Point(0, 0);
             this.Charge.Name = "Charge";
             this.Charge.Size = new System.Drawing.Size(225, 56);
@@ -106,17 +106,6 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "-50";
             // 
-            // button2
-            // 
-            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button2.Location = new System.Drawing.Point(0, 161);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(679, 102);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "СОЗДАТЬ";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button2_MouseClick);
-            // 
             // trackBar2
             // 
             this.trackBar2.Location = new System.Drawing.Point(0, 56);
@@ -139,6 +128,17 @@
             this.trackBar1.TickFrequency = 10;
             this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            // 
+            // button2
+            // 
+            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button2.Location = new System.Drawing.Point(0, 161);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(679, 102);
+            this.button2.TabIndex = 2;
+            this.button2.Text = "СОЗДАТЬ";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button2_MouseClick);
             // 
             // label3
             // 

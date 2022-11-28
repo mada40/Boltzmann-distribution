@@ -14,26 +14,45 @@ namespace Boltzmann_distribution
     {
         SourceField tmp;
         int A = 0, B = 0;
+        bool isRussian;
         void set_label3()
         {
-            label3.Text = $"ПОТЕНЦИАЛЬНАЯ ЭНЕРГИЯ ЧАСТИЦЫ В ПОЛЕ:\nU = {A}";
+            if(isRussian)
+                label3.Text = $"ПОТЕНЦИАЛЬНАЯ ЭНЕРГИЯ ЧАСТИЦЫ В ПОЛЕ:\nU = {A}";
+            else
+                label3.Text = $"POTENTIAL ENERGY OF A PARTICLE IN THE FIELD:\nU = {A}";
             if (A != 0)
             {
-                label3.Text += " / r^2";
+                label3.Text += "(1 / r^2";
                 if (B != 0)
                 {
-                    label3.Text += $" - {B} / r";
+                    label3.Text += $" - {B / 2f} / r";
                 }
+                label3.Text += ")";
             }
         }
 
-        public Form2()
+        public Form2(bool isRu)
         {
             InitializeComponent();
             label1.Text = trackBar1.Value.ToString();
             label2.Text = trackBar2.Value.ToString();
+            isRussian = isRu;
             set_label3();
-
+            if(isRussian)
+            {
+                button2.Text = "СОЗДАТЬ";
+                Charge.Text = "Константа";
+                Radius.Text = "Радиус";
+                Text = "СОЗДАНИЕ ИСТОЧНИКА ПОЛЯ";
+            }
+            else
+            {
+                button2.Text = "TO CREATE";
+                Charge.Text = "Constant";
+                Radius.Text = "Radius";
+                Text = "CREATING A FIELD SOURCE";
+            }
         }
         public PointF pos;
         private void button2_MouseClick(object sender, MouseEventArgs e)
